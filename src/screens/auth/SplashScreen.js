@@ -22,7 +22,7 @@ const SplashScreen = ({ navigation }) => {
                 useNativeDriver: true
             })
         ]).start(() => {
-            navigation.replace('Home');
+            navigation.replace('GameInstructions');
         })
     }, []);
     return (
