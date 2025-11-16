@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/auth/LoginScreen';
 import HomeScreen from '../screens/homeScreen/HomeScreen';
+import SplashScreen from '../screens/auth/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ const MainStack = () => {
         screenOptions={{ headerShown: false  }}
         initialRouteName="Login"
       >
+        <Stack.Screen name="GameInstructions" component={GameInstructions} />
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={BottomTab} />
