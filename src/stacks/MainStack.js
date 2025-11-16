@@ -19,6 +19,7 @@ const MainStack = () => {
         }}        // initialRouteName="Login"
         initialRouteName="GameScreen"
       >
+        <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={BottomTab} />
         <Stack.Screen name="GameScreen" component={GameScreen} />
