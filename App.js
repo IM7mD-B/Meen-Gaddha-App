@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { I18nManager } from 'react-native';
+// import i18n from './i18n'; // ✅ استورد النسخة الكاملة مباشرة
 import { useTranslation } from 'react-i18next';
 import RNRestart from 'react-native-restart';
 import { isAndroid, storageHandler } from './src/utils/helpers/Helpers';
