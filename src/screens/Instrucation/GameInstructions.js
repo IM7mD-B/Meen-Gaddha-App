@@ -113,13 +113,8 @@ const GameInstructions1 = () => {
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
+                inverted={isRTL}
                 onViewableItemsChanged={onViewableItemsChanged}
-                snapToInterval={scale(360)}   // <-- نفس رقم الـ width
-                getItemLayout={(data, index) => ({
-                  length: scale(360),         // <-- نفس الرقم
-                  offset: scale(360) * index, // <-- نفس الرقم مضروب في index
-                  index,
-                })}
                 viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
             />
 
@@ -166,7 +161,7 @@ const GameInstructions1 = () => {
 
                     </>
                 ) : (
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: scale(310), }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: scale(300), }}>
 
                         <TouchableOpacity onPress={handleBack} style={styles.buttonBack}>
                             <Right_Arrow width={30} height={35} />
