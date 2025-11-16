@@ -76,7 +76,6 @@ export default SplashScreen
 const styles = StyleSheet.create({
 
 })
-
 // zustand بدل usecontext
 /*
 كيف نخلي البرنامج يدعم لغتين + جهتين
