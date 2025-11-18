@@ -36,8 +36,8 @@ const HomeScreen = () => {
 
   const loadExclusiveCategories = async () => { 
     try {
-      const res = await apiRequests.getExclusiveCategory();
-      setExclusive(res.data.data || []);
+      const res = await apiRequests.getCollection();
+      setExclusive(res.data.data[0]?.category || []); 
     } catch (err) {
       console.log('Error Exclusive:', err);
     }
@@ -94,7 +94,7 @@ const HomeScreen = () => {
 
       flatListRef.current?.scrollToOffset({
         offset: index * (CARD_WIDTH + CARD_SPACING),
-        animated: true,
+        animated: false,
       });
 
       setActiveIndex(index);
@@ -111,9 +111,10 @@ const HomeScreen = () => {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: verticalScale(50) }}
       >
 
-        <Text style={[styles.sectionTitle, { marginBottom: verticalScale(20) }]}>
+        <Text style={[styles.sectionTitle, { marginBottom: verticalScale(30) }]}>
           الأكثر شهرة
         </Text>
 
@@ -126,7 +127,7 @@ const HomeScreen = () => {
           keyExtractor={(item) => item.id.toString()}
           showsHorizontalScrollIndicator={false}
           snapToInterval={CARD_WIDTH + CARD_SPACING}
-          decelerationRate={0.5}
+          decelerationRate="fast"
           contentContainerStyle={{
             paddingHorizontal: scale(60),
           }}
@@ -155,6 +156,7 @@ const HomeScreen = () => {
     </View>
   );
 };
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -167,8 +169,47 @@ const styles = StyleSheet.create({
     height: verticalScale(300),
     backgroundColor: Colors.colors.primary,
     borderRadius: moderateScale(12),
+    backgroundColor: Colors.colors.background,
+  },
+
+  card: {
+    width: CARD_WIDTH,
+    height: verticalScale(300),
+    backgroundColor: Colors.colors.primary,
+    borderRadius: moderateScale(12),
     justifyContent: 'center',
     alignItems: 'center',
+    marginHorizontal: scale(CARD_SPACING / 3),
+    padding: scale(10),
+  },
+
+  popularImage: {
+    width: scale(150),
+    height: scale(150),
+    resizeMode: 'contain',
+    marginBottom: verticalScale(10),
+  },
+
+  cardText: {
+    color: 'white',
+    fontSize: moderateScale(20),
+    fontFamily: Fonts.FontMedium,
+    textAlign: 'center',
+  },
+
+ 
+  sectionTitle: {
+    fontSize: moderateScale(20),
+    fontFamily: Fonts.FontBold,
+    marginVertical: verticalScale(20),
+    marginStart: scale(16),
+    writingDirection: 'rtl',
+  },
+
+  exclusiveWrapper: { 
+    width: scale(101),
+    alignItems: 'center',
+    marginBottom: verticalScale(25),
     marginHorizontal: scale(CARD_SPACING / 3),
     padding: scale(10),
   },
@@ -216,7 +257,28 @@ const styles = StyleSheet.create({
     width: scale(70),
     height: scale(70),
     resizeMode: 'contain',
+
+  exclusiveCard: { 
+    width: scale(101),
+    height: scale(107),
+    backgroundColor: Colors.colors.primary,
+    borderRadius: moderateScale(30),
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: scale(5),
   },
+
+  exclusiveImage: { 
+    width: scale(70),
+    height: scale(70),
+    resizeMode: 'contain',
+  },
+
+  exclusiveText: { 
+    marginTop: verticalScale(6),
+    fontSize: moderateScale(14),
+    fontFamily: Fonts.FontMedium,
+    textAlign: 'center',
 
   exclusiveText: { 
     marginTop: verticalScale(6),
@@ -225,5 +287,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default HomeScreen;
 
 export default HomeScreen;
