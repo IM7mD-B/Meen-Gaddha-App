@@ -12,11 +12,14 @@ const MainStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={{ headerShown: false  }}
-        initialRouteName="Login"
+        screenOptions={{
+          headerShown: false,
+          animation: 'none',
+        }}        // initialRouteName="Login"
+        initialRouteName="Splash"
       >
-        <Stack.Screen name="GameInstructions" component={GameInstructions} />
         <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="GameInstructions" component={GameInstructions} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={BottomTab} />
 

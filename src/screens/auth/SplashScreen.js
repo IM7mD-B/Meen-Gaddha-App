@@ -2,7 +2,6 @@ import { StyleSheet, Animated, Text, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
-import IllustrationMulti from '../../../assets/images/Illustration_Multi.svg';
 import MeenGaddhaLogo from '../../../assets/images/Meen_Gaddha_Logo.svg';
 
 const SplashScreen = ({ navigation }) => {
@@ -12,13 +11,13 @@ const SplashScreen = ({ navigation }) => {
         Animated.sequence([
             Animated.timing(fadeAnimImages, {
                 toValue: 1,
-                duration: 500,
+                duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.delay(1000),
             Animated.timing(fadeAnimImages, {
                 toValue: 0,
-                duration: 500,
+                duration: 1000,
                 useNativeDriver: true
             })
         ]).start(() => {
