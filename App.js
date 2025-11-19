@@ -16,8 +16,8 @@ export default function App() {
       // if (lang == null) {
       I18nManager.allowRTL(true);
         I18nManager.forceRTL(true);
-        i18n.changeLanguage('ar');
-        storageHandler('store', 'language', 'ar');
+        await i18n.changeLanguage('ar');
+        await storageHandler('store', 'language', 'ar');
         if (isAndroid() && !I18nManager.isRTL) RNRestart.restart();
       // } else {
       //   i18n.changeLanguage(appLanguage);
