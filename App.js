@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { I18nManager } from 'react-native';
+import './i18n'; // 👈 مهم جداً
 // import i18n from './i18n'; // ✅ استورد النسخة الكاملة مباشرة
 import { useTranslation } from 'react-i18next';
 import RNRestart from 'react-native-restart';
@@ -16,8 +17,8 @@ export default function App() {
       // if (lang == null) {
       I18nManager.allowRTL(true);
         I18nManager.forceRTL(true);
-        i18n.changeLanguage('ar');
-        storageHandler('store', 'language', 'ar');
+        await i18n.changeLanguage('ar');
+        await storageHandler('store', 'language', 'ar');
         if (isAndroid() && !I18nManager.isRTL) RNRestart.restart();
       // } else {
       //   i18n.changeLanguage(appLanguage);
