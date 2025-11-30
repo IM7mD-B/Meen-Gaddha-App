@@ -11,6 +11,10 @@ export default function HomeScreen({ route, navigation }) {
       <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
         <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.buttonText}>ِAuth</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -33,6 +37,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 12,
+    marginTop:10
   },
   buttonText: {
     color: '#FFF',
