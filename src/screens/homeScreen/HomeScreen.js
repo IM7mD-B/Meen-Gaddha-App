@@ -94,7 +94,7 @@ const HomeScreen = () => {
 
       flatListRef.current?.scrollToOffset({
         offset: index * (CARD_WIDTH + CARD_SPACING),
-        animated: false,
+        animated: true,
       });
 
       setActiveIndex(index);
@@ -111,10 +111,9 @@ const HomeScreen = () => {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: verticalScale(50) }}
       >
 
-        <Text style={[styles.sectionTitle, { marginBottom: verticalScale(30) }]}>
+        <Text style={[styles.sectionTitle, { marginBottom: verticalScale(20) }]}>
           الأكثر شهرة
         </Text>
 
@@ -127,7 +126,7 @@ const HomeScreen = () => {
           keyExtractor={(item) => item.id.toString()}
           showsHorizontalScrollIndicator={false}
           snapToInterval={CARD_WIDTH + CARD_SPACING}
-          decelerationRate="fast"
+          decelerationRate={0.5}
           contentContainerStyle={{
             paddingHorizontal: scale(60),
           }}

@@ -21,7 +21,7 @@ const EmptyScreen = () => null;         //  مؤقت لأنه باقي الصف�
 const Tab = createBottomTabNavigator();
 
 const tabIcons = {
-  Home: { active: HomeIconFooterSelected, inactive: HomeIconFooter },
+  HomeScreen: { active: HomeIconFooterSelected, inactive: HomeIconFooter },
   Categories: { active: CategoriesIconFooterSelected, inactive: CategoriesIconFooter },
   Profile: { active: ProfileIconFooterSelected, inactive: ProfileIconFooter },
   About: { active: HowToPlayIconFooter, inactive: HowToPlayIconFooter },
@@ -63,7 +63,7 @@ const BottomTab = () => {
     >
       <Tab.Screen name="About" component={EmptyScreen} options={{ tabBarLabel: tabLabels.About }} />
       <Tab.Screen name="Categories" component={EmptyScreen} options={{ tabBarLabel: tabLabels.Categories}} />
-      <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: tabLabels.Home }} />
+      <Tab.Screen name="HomeScreen" component={HomeScreen} options={{ tabBarLabel: tabLabels.Home }} />
       <Tab.Screen name="Profile" component={EmptyScreen} options={{ tabBarLabel: tabLabels.Profile }} />
 
     </Tab.Navigator>
