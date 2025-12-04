@@ -198,9 +198,10 @@ const GameSettings = () => {
                 </View>
 
             </View>
+            </ScrollView>
         </KeyboardAvoidingView>
-    )
-}
+    );
+};
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -243,6 +244,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: colors.colors.textWight
     },
-})
+});
 
 export default GameSettings
