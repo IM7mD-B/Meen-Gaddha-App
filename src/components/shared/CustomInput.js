@@ -1,11 +1,12 @@
 import React, { useState } from 'react'; 
-import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native'; 
+import { View, TextInput, TouchableOpacity, StyleSheet, Text } from 'react-native'; 
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'; 
-import colors from '../../utils/colors/Colors'; 
 // import globalStyles from '../../utils/globalStyle/GlobalStyle'; 
 import Eye from '../../../assets/icons/Eye.svg'; 
 import Eye_off from '../../../assets/icons/Eye_off.svg'; 
 import Colors from '../../utils/colors/Colors';
+import { Fonts } from '../../../assets/fonts/Fonts';
+
 
 // تعريف الكومبوننت
 const CustomInput = ({
@@ -19,7 +20,10 @@ const CustomInput = ({
   multiline = false,
   numberOfLines = 1,
   variant = "default",
-  shape = "auth"
+  shape = "auth",
+  maxLength = null,
+  showCounter = false,
+
 }) => {
 
   const [passwordVisible, setPasswordVisible] = useState(false); 
@@ -33,7 +37,7 @@ const CustomInput = ({
     },
     gameName:{
         borderRadius:moderateScale(40),
-        width:scale(300)
+        width:scale(300),
     },
     teamName:{
         borderRadius:moderateScale(40),
@@ -44,6 +48,7 @@ const CustomInput = ({
  
 
   return (
+    <>
     <View style={[styles.inputContainer, shapeStyles[shape],{ position: 'relative' },
       {
         borderColor: isFocused ? '#4A4952' : '#707070',
@@ -72,7 +77,10 @@ const CustomInput = ({
         onBlur={() => setIsFocused(false)}   
         multiline={multiline}
         numberOfLines={numberOfLines}    
+        maxLength={maxLength}
       />
+
+    
 
       {secure && editable && (
         <TouchableOpacity
@@ -87,6 +95,13 @@ const CustomInput = ({
      
 
     </View>
+
+      {showCounter && maxLength && (
+        <Text style={styles.counterText}>
+          {value?.length || 0} / {maxLength}
+        </Text>
+      )}
+      </>
   );
 };
 
@@ -106,7 +121,12 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,                            // يشغل باقي مساحة الحقل
-    color: Colors.colors.primary,         // لون الخط
+    color: Colors.colors.primary,  
+    fontSize:moderateScale(15),    // لون الخط
+    paddingLeft:scale(5),
+    paddingBottom:verticalScale(7),
+    fontFamily: Fonts.FontMedium
+
     // ...globalStyles.subTitle,           // تطبيق نمط الخطوط من المشروع
   },
   eyeButton: {
@@ -115,5 +135,11 @@ const styles = StyleSheet.create({
   iconContainer:{
     marginLeft:scale(10),
     marginRight:scale(5)
+  },
+  counterText:{
+    color:"#777",
+    fontSize:moderateScale(14),
+    marginLeft:scale(40),  
+    marginTop:verticalScale(-5)  
   }
 });
