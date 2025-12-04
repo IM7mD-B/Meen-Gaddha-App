@@ -17,6 +17,7 @@ import GameScreen from '../screens/gameFlow/GameScreen'
 import SginInScreen from '../screens/auth/SignInScreen'
 import SginUpScreen from '../screens/auth/SignUpScreen'
 import WelcomeScreen from '../screens/auth/WelcomeScreen'
+import GameScreen from '../screens/gameFlow/GameScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -24,8 +25,11 @@ const MainStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={{ headerShown: false  }}
-        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+          animation: 'none',
+        }}        // initialRouteName="Login"
+        initialRouteName="GameScreen"
       >
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="GameInstructions" component={GameInstructions} />
