@@ -36,8 +36,8 @@ const HomeScreen = () => {
 
   const loadExclusiveCategories = async () => { 
     try {
-      const res = await apiRequests.getCollection();
-      setExclusive(res.data.data[0]?.category || []); 
+      const res = await apiRequests.getExclusiveCategory();
+      setExclusive(res.data.data || []);
     } catch (err) {
       console.log('Error Exclusive:', err);
     }

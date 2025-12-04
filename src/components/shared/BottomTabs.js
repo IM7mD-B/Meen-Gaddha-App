@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 import HomeScreen from "../../screens/homeScreen/HomeScreen";
+import CategoriesScreen from "../../screens/categoriesScreen/CategoriesScreen";
 import Fonts from "../../../assets/fonts/Fonts";
 import Colors from "../../utils/colors/Colors";
 
@@ -62,7 +63,7 @@ const BottomTab = () => {
       })}
     >
       <Tab.Screen name="About" component={EmptyScreen} options={{ tabBarLabel: tabLabels.About }} />
-      <Tab.Screen name="Categories" component={EmptyScreen} options={{ tabBarLabel: tabLabels.Categories}} />
+      <Tab.Screen name="Categories" component={CategoriesScreen} options={{ tabBarLabel: tabLabels.Categories}} />
       <Tab.Screen name="HomeScreen" component={HomeScreen} options={{ tabBarLabel: tabLabels.Home }} />
       <Tab.Screen name="Profile" component={EmptyScreen} options={{ tabBarLabel: tabLabels.Profile }} />
 
@@ -71,3 +72,5 @@ const BottomTab = () => {
 };
 
 export default BottomTab;
+
+
