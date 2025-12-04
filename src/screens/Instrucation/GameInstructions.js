@@ -207,7 +207,8 @@ const styles = StyleSheet.create({
         color: '#000',
         textAlign: 'center',
         marginBottom: verticalScale(10),
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontFamily:Fonts.FontBold
     },
     subtitle: {
         fontFamily: Fonts.TajawalRegular,

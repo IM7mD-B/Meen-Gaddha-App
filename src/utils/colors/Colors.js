@@ -8,5 +8,6 @@ export default {
     
     text: '#000000',           // لون النص
     background: '#FFFFFF',     // لون الخلفية
+    Buttonbackground: '#B83239'
   }
 };
