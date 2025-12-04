@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.FontMedium,
         color: colors.colors.text,
     },
-
     signUpText: {
         fontSize: moderateScale(18),
         fontFamily: Fonts.FontMedium
