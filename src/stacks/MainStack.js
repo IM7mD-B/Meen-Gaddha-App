@@ -22,8 +22,11 @@ const MainStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={{ headerShown: false  }}
-        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+          animation: 'none',
+        }}        // initialRouteName="Login"
+        initialRouteName="GameScreen"
       >
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="GameInstructions" component={GameInstructions} />
