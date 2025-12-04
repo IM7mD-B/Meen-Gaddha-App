@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
-import Arrow_Back from '../../../assets/icons/Arrow_Back.svg';
+import Arrow_Back from '../../../assets/icons/Arrow_Back.svg'
+import Meen_Gaddha_Icon from '../../../assets/icons/Meen_Gaddha_Icon.svg';
 import Fonts from "../../../assets/fonts/Fonts";
 import Colors from "../../utils/colors/Colors";
 
@@ -10,6 +11,7 @@ const Header = ({
   showBack = false,
   showProfile = false,
   showTitle = false,
+  showIcon = false,
   title = '',
   onBackPress = () => { },
   onProfilePress = () => { },
@@ -43,6 +45,12 @@ const Header = ({
           <View style={styles.centerContainer}>
             <Text style={styles.titleText}>{title}</Text>
           </View>
+
+        )}
+        {showIcon && (
+          <View style={styles.rightContainer}>
+            <Meen_Gaddha_Icon/>
+          </View>
         )}
       </View>
     </SafeAreaView>
@@ -65,8 +73,8 @@ const styles = StyleSheet.create({
 
   leftContainer: {
     position: "absolute",
-    left: scale(12),
-    paddingTop: verticalScale(10),
+    left: scale(15),
+    paddingTop: verticalScale(25),
     flexDirection: "row",
     alignItems: "center",
   },
@@ -83,7 +91,7 @@ const styles = StyleSheet.create({
     width: scale(32),
     height: scale(32),
     backgroundColor: "#D9D9D9",
-    borderRadius: moderateScale(8), 
+    borderRadius: moderateScale(8),
   },
 
   profileTextContainer: {
@@ -94,13 +102,13 @@ const styles = StyleSheet.create({
   profileName: {
     color: Colors.colors.text,
     fontSize: scale(12),
-    fontFamily: "Cairo-Medium", 
+    fontFamily: "Cairo-Medium",
   },
 
   profileRole: {
     color: Colors.colors.text,
     fontSize: scale(14),
-    fontFamily: "Cairo-Medium", 
+    fontFamily: "Cairo-Medium",
   },
 
   centerContainer: {
@@ -113,6 +121,13 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(25),
     fontFamily: "Cairo-Medium",
     color: Colors.colors.text,
+  },
+  rightContainer:{
+    position: "absolute",
+    right: scale(15),
+    paddingTop: verticalScale(25),
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 
