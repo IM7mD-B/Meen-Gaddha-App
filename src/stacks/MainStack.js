@@ -26,7 +26,7 @@ const MainStack = () => {
           headerShown: false,
           animation: 'none',
         }}        // initialRouteName="Login"
-        initialRouteName="Splash"
+        initialRouteName="Welcome"
       >
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="GameInstructions" component={GameInstructions} />
