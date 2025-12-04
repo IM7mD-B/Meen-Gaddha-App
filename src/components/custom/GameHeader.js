@@ -30,7 +30,7 @@ const GameHeader = ({
 
                 {/* Center */}
                 <View style={styles.centerContainer}>
-                    <Text style={styles.gameName}>{"!🏁"+gameName}</Text>
+                    <Text style={styles.gameName}>{gameName+"!🏁"}</Text>
                 </View>
 
                 {/* Right */}
@@ -53,6 +53,8 @@ const GameHeader = ({
 const styles = StyleSheet.create({
     safeArea: {
         backgroundColor: Colors.colors.background,
+        width: '100%',
+
     },
 
     container: {
@@ -60,8 +62,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         paddingHorizontal: scale(12),
-        paddingTop: verticalScale(10),
-        backgroundColor: Colors.colors.background,
+        width: '100%',
     },
 
     /* Left */
