@@ -136,7 +136,6 @@ const SignInScreen = ({ navigation, route }) => {
 
 export default SignInScreen
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
