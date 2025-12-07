@@ -2,6 +2,7 @@ import { StyleSheet, TouchableOpacity, TextInput, Image, Text, View, Alert } fro
 import React, { useState } from 'react'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import Header from '../../components/shared/Header'
+import globalStyles from '../../utils/globalStyle/GlobalStyle'
 import colors from '../../utils/colors/Colors';
 import Lock from "../../../assets/icons/Lock.svg";
 import Mail from "../../../assets/icons/Mail.svg";
@@ -56,7 +57,7 @@ const SignInScreen = ({ navigation }) => {
       </View>
 
       {/* TODO هنا تحتاج تعدل شكل الزر بعد ما تحددو قلوبل ستايل ولا كمبوننت */}
-      <View style={styles.buttonContainer}>
+      <View style={[globalStyles.buttonSginIn, {backgroundColor:colors.colors.accent}]}>
         <TouchableOpacity onPress={handleLogin}>
           <Text style={[styles.signInText, { color: colors.colors.text }]}>تسجيل الدخول</Text>
         </TouchableOpacity>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: verticalScale(35)
+    marginVertical: verticalScale(20)
   },
   forgetText: {
     marginHorizontal: scale(2),
@@ -99,15 +100,6 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     fontFamily: Fonts.FontMedium
     // ...globalStyles.smallText
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.colors.accent,
-    padding: verticalScale(10),
-    marginHorizontal: scale(55),
-    borderRadius: 15,
-    marginTop: verticalScale(25)
   },
   signInText: {
     fontSize: moderateScale(18),
@@ -119,9 +111,10 @@ const styles = StyleSheet.create({
 
   },
   inputContainer: {
-    marginVertical: verticalScale(20),
     height: verticalScale(140),
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom:verticalScale(50),
+    marginTop:verticalScale(20),
   }
 
 })

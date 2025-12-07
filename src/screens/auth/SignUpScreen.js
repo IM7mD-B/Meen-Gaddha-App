@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import User from "../../../assets/icons/User.svg";
 import Header from '../../components/shared/Header'
+import globalStyles from '../../utils/globalStyle/GlobalStyle'
 import colors from '../../utils/colors/Colors';
 import Lock from "../../../assets/icons/Lock.svg";
 import Mail from "../../../assets/icons/Mail.svg";
@@ -113,7 +114,7 @@ const SignInScreen = ({ navigation }) => {
                     ) : null}
                 </View>
 
-                <View style={styles.buttonContainer}>
+                <View style={[globalStyles.buttonSginIn, {backgroundColor:colors.colors.Buttonbackground}]}>
                     <TouchableOpacity onPress={handleSignUp}>
                         <Text style={[styles.signUpText, { color: colors.colors.background }]}>إنشاء الحساب</Text>
                     </TouchableOpacity>
@@ -160,15 +161,6 @@ const styles = StyleSheet.create({
         fontSize: moderateScale(16),
         textDecorationLine: "underline",
         fontFamily: Fonts.FontMedium
-    },
-    buttonContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: colors.colors.Buttonbackground,
-        padding: verticalScale(8),
-        marginHorizontal: scale(55),
-        borderRadius: 15,
-        marginTop: verticalScale(20)
     },
     errorText: {
         color: 'red',
