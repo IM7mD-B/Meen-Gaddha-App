@@ -119,12 +119,6 @@ const SignInScreen = ({ navigation }) => {
                         <Text style={[styles.signUpText, { color: colors.colors.background }]}>إنشاء الحساب</Text>
                     </TouchableOpacity>
                 </View>
-                {/* TODO هنا تحتاج تغير الانتقال بعد ما تكتمل صفحه تغيير كلمه المرور */}
-                <View style={styles.forgetcontainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                        <Text style={[styles.forgetText, { color: colors.colors.secondary }]}>نسيت كلمة المرور؟</Text>
-                    </TouchableOpacity>
-                </View>
             </ScrollView>
         </KeyboardAvoidingView>
 
