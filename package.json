@@ -29,7 +29,8 @@
     "react-native-size-matters": "^0.4.2",
     "react-native-svg": "^15.14.0",
     "react-native-svg-transformer": "^1.5.2",
-    "react-native-worklets": "^0.6.1"
+    "react-native-worklets": "^0.6.1",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
