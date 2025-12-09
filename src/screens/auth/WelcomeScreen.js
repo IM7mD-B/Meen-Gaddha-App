@@ -35,7 +35,7 @@ const WelcomeScreen = ({ navigation }) => {
             </View>
             {/* Sign in as Guest */}
             <View style={styles.guestcontainer}>
-                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                     <Text style={[styles.guestText, { color: colors.colors.secondary }]}>الدخول كضيف</Text>
                 </TouchableOpacity>
             </View>

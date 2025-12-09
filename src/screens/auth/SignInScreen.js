@@ -2,6 +2,7 @@ import { StyleSheet, TouchableOpacity, TextInput, Image, Text, View, Alert } fro
 import React, { useState } from 'react'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import Header from '../../components/shared/Header'
+import { loginSchema } from '../../utils/validation/Validation'
 import globalStyles from '../../utils/globalStyle/GlobalStyle'
 import colors from '../../utils/colors/Colors';
 import Lock from "../../../assets/icons/Lock.svg";
@@ -13,16 +14,37 @@ import { Fonts } from '../../../assets/fonts/Fonts';
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setError] = useState({
+    email: '',
+    password: '',
+  });
 
-  const handleLogin = () => {
-    if (!email.trim() || !password.trim()) {
-      Alert.alert("خطأ ⚠️", "يرجى إدخال البريد الإلكتروني وكلمة المرور.")
-      return;
+  const handleLogin = async () => {
+    try {
+
+      setError({
+        email: '', password: ''
+      })
+
+      await loginSchema.validate(
+        {
+          email,
+          password,
+        },
+        { abortEarly: false }
+      )
+      Alert.alert("تم ✅", "تم تسجيل الدخول بنجاح!")
+
+      navigation.navigate('Home')
+    } catch (err) {
+      if (err.inner) {
+        const newErrors = {}
+        err.inner.forEach((e) => {
+          newErrors[e.path] = e.message;
+        });
+        setError(newErrors)
+      }
     }
-    Alert.alert("تم ✅", "تم تسجيل الدخول بنجاح!");
-    {/* TODO هنا تحتاج تغير الانتقال بعد ما تاخذ الهوم */ }
-
-    navigation.navigate('Login')
   }
   return (
     <View style={styles.container}>
@@ -38,6 +60,8 @@ const SignInScreen = ({ navigation }) => {
         <Text style={[styles.welcomeText, { color: colors.colors.text }]}>جاهز؟</Text>
         <Text style={[styles.welcomeText, { color: colors.colors.text }]}>سجل دخولك و ورّينا 💪 </Text>
       </View>
+
+      {/* ====== Email ======*/}
       <View style={styles.inputContainer}>
         <CustomInput
           placeholder='البريد الإلكتروني '
@@ -46,6 +70,11 @@ const SignInScreen = ({ navigation }) => {
           textAlign='right'
           icon={Mail}
         />
+        {errors.email ? (
+          <Text style={styles.errorText}>{errors.email}</Text>
+        ) : null}
+
+        {/* ====== Password ======*/}
         <CustomInput
           placeholder='كلمة المرور'
           value={password}
@@ -54,16 +83,18 @@ const SignInScreen = ({ navigation }) => {
           secure={true}
           icon={Lock}
         />
+        {errors.password ? (
+          <Text style={styles.errorText}>{errors.password}</Text>
+        ) : null}
       </View>
 
-      {/* TODO هنا تحتاج تعدل شكل الزر بعد ما تحددو قلوبل ستايل ولا كمبوننت */}
-      <View style={[globalStyles.buttonSginIn, {backgroundColor:colors.colors.accent}]}>
+      {/* ====== Button SginIn ======*/}
+      <View style={[globalStyles.buttonSginIn, { backgroundColor: colors.colors.accent }]}>
         <TouchableOpacity onPress={handleLogin}>
           <Text style={[styles.signInText, { color: colors.colors.text }]}>تسجيل الدخول</Text>
         </TouchableOpacity>
       </View>
 
-      {/* TODO هنا تحتاج تغير الانتقال بعد ما تكتمل صفحه تغيير كلمه المرور */}
       <View style={styles.forgetcontainer}>
         <TouchableOpacity onPress={() => navigation.navigate('ForgetPass')}>
           <Text style={[styles.forgetText, { color: colors.colors.secondary }]}>نسيت كلمة المرور؟</Text>
@@ -113,8 +144,15 @@ const styles = StyleSheet.create({
   inputContainer: {
     height: verticalScale(140),
     justifyContent: 'space-between',
-    marginBottom:verticalScale(50),
-    marginTop:verticalScale(20),
-  }
+    marginBottom: verticalScale(50),
+    marginTop: verticalScale(20),
+  },
+  errorText: {
+    color: 'red',
+    marginLeft: scale(25),
+    fontSize: moderateScale(12),
+    marginTop: verticalScale(3),
+
+  },
 
 })
