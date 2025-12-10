@@ -1,6 +1,8 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity  } from 'react-native'
 import React, { useState } from 'react'
 import { moderateScale, verticalScale, scale } from 'react-native-size-matters'
+import globalStyles from '../../utils/globalStyle/GlobalStyle'
+import colors from '../../utils/colors/Colors';
 
 
 const dropdown = () => {
@@ -23,22 +25,24 @@ const dropdown = () => {
                 style={styles.selector}
                 onPress={() => setOpen(!open)}
             >
-                <Text style={styles.selectorText}>
+                <Text style={[globalStyles.subTitle, { color: colors.colors.secondary }]}>
                     {selected ? `عدد الأسئلة : ${selected}` : "كم سؤال تبغون تتحدون فيه؟ 🤔"}
                 </Text>
             </TouchableOpacity>
 
             {open && (
-                <View style={styles.dropdown}>
-                    {options.map((item) => (
-                        <TouchableOpacity
-                            key={item}
-                            style={styles.option}
-                            onPress={() => handleSelect(item)}
-                        >
-                            <Text style={styles.optionText}> {item} </Text>
-                        </TouchableOpacity>
-                    ))}
+                <View style={styles.dropdownCon}>
+                    <View style={styles.dropdown}>
+                        {options.map((item) => (
+                            <TouchableOpacity
+                                key={item}
+                                style={styles.option}
+                                onPress={() => handleSelect(item)}
+                            >
+                                <Text style={styles.optionText}> {item} </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
                 </View>
             )}
         </View>
@@ -50,7 +54,6 @@ export default dropdown
 const styles = StyleSheet.create({
     container: {
         width: scale(250),
-        height: verticalScale(50),
         borderWidth: 1.5,
         borderColor: "#707070",
         marginTop: verticalScale(20),
@@ -71,18 +74,20 @@ const styles = StyleSheet.create({
     },
     dropdown: {
         backgroundColor: "#fff",
-        borderBottomRightRadius: moderateScale(20),
-        borderBottomLeftRadius: moderateScale(20),
-        elevation: 3,
+        elevation: 5,
 
+    },
+    dropdownCon: {
+        width: scale(248),
+        borderWidth: 1,
     },
     option: {
         borderBottomWidth: 1,
         // borderWidth:1,
         // borderColor:"#707070",
         padding: moderateScale(15),
-        borderBottomColor:"#ddd",
-        
+        borderBottomColor: "#ddd",
+
     },
     optionText: {
         fontSize: moderateScale(15)
