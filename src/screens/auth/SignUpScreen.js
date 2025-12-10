@@ -3,11 +3,14 @@ import React, { useState } from 'react'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import User from "../../../assets/icons/User.svg";
 import Header from '../../components/shared/Header'
+import globalStyles from '../../utils/globalStyle/GlobalStyle'
 import colors from '../../utils/colors/Colors';
 import Lock from "../../../assets/icons/Lock.svg";
 import Mail from "../../../assets/icons/Mail.svg";
 import CustomInput from '../../components/shared/CustomInput'
 import { Fonts } from '../../../assets/fonts/Fonts';
+import { registerSchema } from '../../utils/validation/Validation';
+import apiRequests from '../../api/api'
 
 
 const SignInScreen = ({ navigation }) => {
@@ -17,34 +20,60 @@ const SignInScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setError] = useState({
+        name: '',
         email: '',
         password: '',
         confirmPassword: '',
     });
 
-    const handleSignUp = () => {
-        const newErrors = { email: '', password: '', confirmPassword: '' };
+    const handleSignUp = async () => {
+        try {
 
-        if (!email.includes('@')) {
-            newErrors.email = 'البريد الإلكتروني يجب أن يحتوي على @';
+            setError({
+                name: '', email: '', password: '', confirmPassword: ''
+            })
 
-        } else if (!email.endsWith('.com')) {
-            newErrors.email = 'البريد الإلكتروني يجب أن ينتهي بـ .com'
-        }
+            await registerSchema.validate(
+                {
+                    name,
+                    email,
+                    password,
+                    confirmPassword
+                },
+                { abortEarly: false }
+            )
 
-        if (password.length < 8) {
-            newErrors.password = 'كلمة المرور يجب أن تكون أكثر من 8 خانات';
-        }
+            const response = await apiRequests.postRegister({
+                name,
+                email,
+                password,
+                password_confirmation: confirmPassword
+            })
+            console.log('Register Response', response.data);
 
-        if (password != confirmPassword) {
-            newErrors.confirmPassword = 'كلمتا المرور غير متطابقتين'
-        }
-        setError(newErrors);
-        if (!newErrors.email && !newErrors.password && !newErrors.confirmPassword) {
-            Alert.alert('تم إنشاء الحساب بنجاح ✅');
-            {/* TODO هنا تحتاج تغير الانتقال بعد ما تاخذ الهوم */ }
+            Alert.alert("تم ✓", "تم إنشاء الحساب بنجاح!");
 
-            navigation.navigate('Login');
+            navigation.navigate("Home");
+
+        } catch (err) {
+
+            if (err.inner) {
+                const newErrors = {}
+                err.inner.forEach((e) => {
+                    newErrors[e.path] = e.message;
+                });
+                setError(newErrors)
+            } else if (err.response) {
+
+                // لو الخطأ من السيرفر
+                console.log('Server Error:', err.response.data); 
+                Alert.alert("خطأ ❌", err.response.data.message || "حدثت مشكلة");
+
+            } else {
+
+                console.log('Login Error:', err)
+                Alert.alert('خطأ ❌", "حدثت مشكلة في تسجيل الدخول')
+            }
         }
 
     };
@@ -72,6 +101,8 @@ const SignInScreen = ({ navigation }) => {
                     <Text style={[styles.welcomeText, { color: colors.colors.text }]}> ياللّه حيه !</Text>
                     <Text style={[styles.welcomeText, { color: colors.colors.text }]}>انشئ حسابك و خلك قدها 👊🔥</Text>
                 </View>
+
+                {/* ====== Name ======*/}
                 <View style={styles.inputContainer} >
                     <CustomInput
                         placeholder='اسم المستخدم'
@@ -80,6 +111,11 @@ const SignInScreen = ({ navigation }) => {
                         textAlign='right'
                         icon={User}
                     />
+                    {errors.name ? (
+                        <Text style={styles.errorText}>{errors.name}</Text>
+                    ) : null}
+
+                    {/* ====== Email ======*/}
                     <CustomInput
                         placeholder='البريد الإلكتروني '
                         value={email}
@@ -90,6 +126,8 @@ const SignInScreen = ({ navigation }) => {
                     {errors.email ? (
                         <Text style={styles.errorText}>{errors.email}</Text>
                     ) : null}
+
+                    {/* ====== Password ======*/}
                     <CustomInput
                         placeholder='كلمة المرور'
                         value={password}
@@ -100,6 +138,8 @@ const SignInScreen = ({ navigation }) => {
                     {errors.password ? (
                         <Text style={styles.errorText}>{errors.password}</Text>
                     ) : null}
+
+                    {/* ====== Confirm Password ======*/}
                     <CustomInput
                         placeholder='تأكيد كلمة المرور  '
                         value={confirmPassword}
@@ -113,15 +153,10 @@ const SignInScreen = ({ navigation }) => {
                     ) : null}
                 </View>
 
-                <View style={styles.buttonContainer}>
+                {/* ====== Button SginIn ======*/}
+                <View style={[globalStyles.buttonSginIn, { backgroundColor: colors.colors.Buttonbackground }]}>
                     <TouchableOpacity onPress={handleSignUp}>
                         <Text style={[styles.signUpText, { color: colors.colors.background }]}>إنشاء الحساب</Text>
-                    </TouchableOpacity>
-                </View>
-                {/* TODO هنا تحتاج تغير الانتقال بعد ما تكتمل صفحه تغيير كلمه المرور */}
-                <View style={styles.forgetcontainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                        <Text style={[styles.forgetText, { color: colors.colors.secondary }]}>نسيت كلمة المرور؟</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -161,19 +196,9 @@ const styles = StyleSheet.create({
         textDecorationLine: "underline",
         fontFamily: Fonts.FontMedium
     },
-    buttonContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: colors.colors.Buttonbackground,
-        padding: verticalScale(8),
-        marginHorizontal: scale(55),
-        borderRadius: 15,
-        marginTop: verticalScale(20)
-    },
     errorText: {
         color: 'red',
-        textAlign: 'right',
-        marginRight: scale(25),
+        marginLeft: scale(25),
         fontSize: moderateScale(12),
         marginTop: verticalScale(3),
 

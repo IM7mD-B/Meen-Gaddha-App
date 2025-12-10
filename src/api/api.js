@@ -11,6 +11,11 @@ const apiRequests = {
     getCollection: () => api.get('/api/collection'),
 
 
+    //Post
+    postLogin: (data) => api.post('/api/login',data),
+
+    postRegister: (data) => api.post('/api/register',data),
+
 };
 
 export default apiRequests;

@@ -2,26 +2,68 @@ import { StyleSheet, TouchableOpacity, TextInput, Image, Text, View, Alert } fro
 import React, { useState } from 'react'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 import Header from '../../components/shared/Header'
+import { loginSchema } from '../../utils/validation/Validation'
+import globalStyles from '../../utils/globalStyle/GlobalStyle'
 import colors from '../../utils/colors/Colors';
 import Lock from "../../../assets/icons/Lock.svg";
 import Mail from "../../../assets/icons/Mail.svg";
 import CustomInput from '../../components/shared/CustomInput'
 import { Fonts } from '../../../assets/fonts/Fonts';
-
+import apiRequests from '../../api/api'
 
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setError] = useState({
+    email: '',
+    password: '',
+  });
 
-  const handleLogin = () => {
-    if (!email.trim() || !password.trim()) {
-      Alert.alert("خطأ ⚠️", "يرجى إدخال البريد الإلكتروني وكلمة المرور.")
-      return;
+  const handleLogin = async () => {
+    try {
+
+      setError({
+        email: '', password: ''
+      })
+
+      await loginSchema.validate(
+        {
+          email,
+          password,
+        },
+        { abortEarly: false }
+      )
+
+      const response = await apiRequests.postLogin({
+        email,
+        password,
+      })
+      console.log('Login Response', response.data)
+
+      Alert.alert("تم ✅", "تم تسجيل الدخول بنجاح!")
+
+      navigation.navigate('Home')
+
+    } catch (err) {
+      if (err.inner) {
+        const newErrors = {}
+        err.inner.forEach((e) => {
+          newErrors[e.path] = e.message;
+        });
+        setError(newErrors)
+
+      } else if (err.response) {
+
+        // لو الخطأ من السيرفر
+        console.log('Server Error:', err.response.data);  // 🔹 هنا تشوف التفاصيل
+        Alert.alert("خطأ ❌", err.response.data.message || "حدثت مشكلة");
+      
+      }else{
+        
+        console.log('Login Error:', err)
+        Alert.alert('خطأ ❌", "حدثت مشكلة في تسجيل الدخول')
+      }
     }
-    Alert.alert("تم ✅", "تم تسجيل الدخول بنجاح!");
-    {/* TODO هنا تحتاج تغير الانتقال بعد ما تاخذ الهوم */ }
-
-    navigation.navigate('Login')
   }
   return (
     <View style={styles.container}>
@@ -37,6 +79,8 @@ const SignInScreen = ({ navigation }) => {
         <Text style={[styles.welcomeText, { color: colors.colors.text }]}>جاهز؟</Text>
         <Text style={[styles.welcomeText, { color: colors.colors.text }]}>سجل دخولك و ورّينا 💪 </Text>
       </View>
+
+      {/* ====== Email ======*/}
       <View style={styles.inputContainer}>
         <CustomInput
           placeholder='البريد الإلكتروني '
@@ -45,6 +89,11 @@ const SignInScreen = ({ navigation }) => {
           textAlign='right'
           icon={Mail}
         />
+        {errors.email ? (
+          <Text style={styles.errorText}>{errors.email}</Text>
+        ) : null}
+
+        {/* ====== Password ======*/}
         <CustomInput
           placeholder='كلمة المرور'
           value={password}
@@ -53,18 +102,20 @@ const SignInScreen = ({ navigation }) => {
           secure={true}
           icon={Lock}
         />
+        {errors.password ? (
+          <Text style={styles.errorText}>{errors.password}</Text>
+        ) : null}
       </View>
 
-      {/* TODO هنا تحتاج تعدل شكل الزر بعد ما تحددو قلوبل ستايل ولا كمبوننت */}
-      <View style={styles.buttonContainer}>
+      {/* ====== Button SginIn ======*/}
+      <View style={[globalStyles.buttonSginIn, { backgroundColor: colors.colors.accent }]}>
         <TouchableOpacity onPress={handleLogin}>
           <Text style={[styles.signInText, { color: colors.colors.text }]}>تسجيل الدخول</Text>
         </TouchableOpacity>
       </View>
 
-      {/* TODO هنا تحتاج تغير الانتقال بعد ما تكتمل صفحه تغيير كلمه المرور */}
       <View style={styles.forgetcontainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgetPass')}>
           <Text style={[styles.forgetText, { color: colors.colors.secondary }]}>نسيت كلمة المرور؟</Text>
         </TouchableOpacity>
       </View>
@@ -91,7 +142,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: verticalScale(35)
+    marginVertical: verticalScale(20)
   },
   forgetText: {
     marginHorizontal: scale(2),
@@ -99,15 +150,6 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     fontFamily: Fonts.FontMedium
     // ...globalStyles.smallText
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.colors.accent,
-    padding: verticalScale(10),
-    marginHorizontal: scale(55),
-    borderRadius: 15,
-    marginTop: verticalScale(25)
   },
   signInText: {
     fontSize: moderateScale(18),
@@ -119,9 +161,17 @@ const styles = StyleSheet.create({
 
   },
   inputContainer: {
-    marginVertical: verticalScale(20),
     height: verticalScale(140),
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+    marginBottom: verticalScale(50),
+    marginTop: verticalScale(20),
+  },
+  errorText: {
+    color: 'red',
+    marginLeft: scale(25),
+    fontSize: moderateScale(12),
+    marginTop: verticalScale(3),
+
+  },
 
 })
