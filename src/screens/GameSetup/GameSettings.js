@@ -120,6 +120,12 @@ const GameSettings = () => {
                     });
                 }}
             />
+            <ScrollView
+                style={styles.container}
+                contentContainerStyle={{ paddingBottom: verticalScale(50) }} // عشان مايعلق شي أسفل
+                showsVerticalScrollIndicator={false} // إخفاء شريط التمرير لو تحب
+                keyboardShouldPersistTaps="handled" // عشان لما تضغط على زر يتفاعل بدون غلق الكيبورد
+            >
 
             <View
                 style={styles.container}
