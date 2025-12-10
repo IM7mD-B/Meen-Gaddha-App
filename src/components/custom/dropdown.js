@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity  } from 'react-native'
 import React, { useState } from 'react'
 import { moderateScale, verticalScale, scale } from 'react-native-size-matters'
 import globalStyles from '../../utils/globalStyle/GlobalStyle'

@@ -177,7 +177,6 @@ const GameSettings = () => {
         </KeyboardAvoidingView>
     )
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
