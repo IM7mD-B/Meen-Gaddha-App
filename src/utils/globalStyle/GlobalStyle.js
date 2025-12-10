@@ -15,12 +15,13 @@ const globalStyles = StyleSheet.create({
     alignSelf:'center',
   },
   buttonMedium: {                           //زر الاجابه والاختيار
-    width: scale(70),
-    height: verticalScale(30),
-    borderRadius: moderateScale(10),
-    backgroundColor: colors.colors.primary,
+    width: scale(330),
+    height: verticalScale(39),
+    borderRadius: moderateScale(22),
+    backgroundColor: colors.colors.secondary,
     justifyContent: "center",
     alignItems: "center",
+    alignSelf:'center',
   },
   buttonFull: {                           //زر البروفايل والدفع
     width: scale(320),
@@ -49,12 +50,12 @@ const globalStyles = StyleSheet.create({
 
   // Text Styles 
   mainTitle: {
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(18),
     fontFamily: Fonts.FontBold,
   },
   subTitle: {
     fontSize: moderateScale(14),
-    fontFamily: Fonts.FontBold,
+    fontFamily: Fonts.FontSemiBold,
   },
   bodyText: {
     fontSize: moderateScale(14),
