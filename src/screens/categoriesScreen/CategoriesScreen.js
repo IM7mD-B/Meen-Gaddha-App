@@ -1,49 +1,91 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import Colors from '../../utils/colors/Colors';
 import Header from "../../components/shared/Header";
 import { Fonts } from '../../../assets/fonts/Fonts';
-
-const categories = ['كل الفئات', 'السعودية', 'الرياضة', 'إسلامي'];
+import apiRequests from '../../api/api';
+import { useNavigation } from '@react-navigation/native';
+import CategoryCard from "../../components/custom/CategoryCard";
 
 const CategoriesScreen = () => {
+  const navigation = useNavigation();
   const [selectedNumber, setSelectedNumber] = useState(null);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [collectionData, setCollectionData] = useState([]);
+  const [tabs, setTabs] = useState(["كل الفئات"]);
+  const [selectedFilter, setSelectedFilter] = useState("كل الفئات");
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedCards, setSelectedCards] = useState([]);
 
   const numbers = [4, 6, 8];
 
-  const toggleCategory = (category) => {
-    if (!selectedNumber) return;
+  const fetchCollection = async () => {
+    try {
+      const res = await apiRequests.getCollection();
+      const data = res?.data?.data ?? [];
 
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories([]);
+      setCollectionData(data);
+      setFilteredData(data);
+
+      const dynamicTabs = data.map(item => item.name);
+      setTabs(["كل الفئات", ...dynamicTabs]);
+
+    } catch (error) {
+      console.log("Error fetching collection:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCollection();
+  }, []);
+
+  const applyFilter = (filter) => {
+    setSelectedFilter(filter);
+
+    if (filter === "كل الفئات") {
+      setFilteredData(collectionData);
     } else {
-      setSelectedCategories([category]);
+      const filtered = collectionData.filter(item => item.name === filter);
+      setFilteredData(filtered);
     }
   };
 
   const selectNumber = (num) => {
     setSelectedNumber(num);
-    setSelectedCategories([]);
+    setSelectedCards(prev => prev.slice(0, num));
+  };
+
+  const toggleCard = (id) => {
+    if (!selectedNumber) return;
+
+    const alreadySelected = selectedCards.includes(id);
+
+    if (alreadySelected) {
+      setSelectedCards(prev => prev.filter(card => card !== id));
+    } else if (selectedCards.length < selectedNumber) {
+      const newSelection = [...selectedCards, id];
+      setSelectedCards(newSelection);
+
+      if (newSelection.length === selectedNumber) {
+        navigation.navigate('GameSetting', { selectedCards: newSelection });
+      }
+    }
   };
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <Header showBack showTitle title="اختر والعب" />
 
       <ScrollView contentContainerStyle={styles.content}>
+
+        {/* Number Selector */}
         <View style={styles.numbersContainer}>
           {numbers.map((num) => {
             const isActive = selectedNumber === num;
             return (
               <TouchableOpacity
                 key={num}
-                style={[
-                  styles.numberButton,
-                  isActive && styles.numberButtonActive
-                ]}
+                style={[styles.numberButton, isActive && styles.numberButtonActive]}
                 onPress={() => selectNumber(num)}
               >
                 <Text style={[styles.unitText, isActive && styles.numberTextActive]}>فئات</Text>
@@ -53,23 +95,21 @@ const CategoriesScreen = () => {
           })}
         </View>
 
+        {/* Tabs */}
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
+          data={tabs}
+          keyExtractor={(item, idx) => idx.toString()}
           contentContainerStyle={styles.categoriesContainer}
-          data={categories}
-          keyExtractor={(item) => item}
           renderItem={({ item }) => {
-            const isSelected = selectedCategories.includes(item);
+            const active = selectedFilter === item;
             return (
               <TouchableOpacity
-                style={[
-                  styles.categoryButton,
-                  isSelected && styles.categorySelected
-                ]}
-                onPress={() => toggleCategory(item)}
+                style={[styles.categoryButton, active && styles.categorySelected]}
+                onPress={() => applyFilter(item)}
               >
-                <Text style={[styles.categoryText, isSelected && styles.categoryTextActive]}>
+                <Text style={[styles.categoryText, active && styles.categoryTextActive]}>
                   {item}
                 </Text>
               </TouchableOpacity>
@@ -77,29 +117,52 @@ const CategoriesScreen = () => {
           }}
         />
 
-        <View style={styles.filterContainer}>
+        {/* Category cards */}
+        <View style={styles.cardsContainer}>
+          {filteredData?.map((collection) =>
+            collection.category?.map((item) => {
+              if (!item) return null;
+
+              const active = selectedCards.includes(item.id);
+
+              return (
+                <CategoryCard
+                  key={item.id}
+                  item={item}
+                  isActive={selectedCards.includes(item.id)}
+                  disabled={false} 
+                  showOverlay={!selectedNumber} 
+                  onPress={() => toggleCard(item.id)}
+                />
+
+              );
+            })
+          )}
         </View>
+
       </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
+  container: {
+    flex: 1,
     backgroundColor: Colors.colors.background,
   },
+
   content: {
     padding: moderateScale(20),
-    justifyContent: 'center',
     alignItems: 'center',
   },
-  numbersContainer: { 
-    flexDirection: 'row', 
-    justifyContent: 'space-around', 
-    marginBottom: verticalScale(20), 
+
+  numbersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: verticalScale(20),
     width: '100%',
   },
+
   numberButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -110,29 +173,35 @@ const styles = StyleSheet.create({
     borderColor: '#e4e4e4ff',
     borderWidth: 1,
   },
+
   numberButtonActive: {
     backgroundColor: Colors.colors.primary,
   },
-  numberText: { 
-    color: Colors.colors.primary, 
+
+  numberText: {
+    color: Colors.colors.primary,
     fontFamily: Fonts.FontMedium,
-    fontWeight: 'bold', 
-    fontSize: moderateScale(18) 
+    fontWeight: 'bold',
+    fontSize: moderateScale(18)
   },
-  numberTextActive: { 
-    color: '#fff' 
+
+  numberTextActive: {
+    color: Colors.colors.background
   },
+
   unitText: {
     color: Colors.colors.primary,
     fontFamily: Fonts.FontMedium,
     fontWeight: 'bold',
-    transform: [{ rotate: '-90deg' }], 
+    transform: [{ rotate: '-90deg' }],
     fontSize: moderateScale(14),
   },
-  categoriesContainer: { 
+
+  categoriesContainer: {
     paddingVertical: verticalScale(10),
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
+
   categoryButton: {
     paddingVertical: verticalScale(8),
     paddingHorizontal: scale(15),
@@ -142,28 +211,30 @@ const styles = StyleSheet.create({
     marginRight: scale(10),
     backgroundColor: '#F4F4F4',
   },
+
   categorySelected: {
     borderColor: Colors.colors.primary,
-    backgroundColor: '#F4F4F4',
   },
-  categoryText: { 
+
+  categoryText: {
     color: '#000',
     fontFamily: Fonts.FontMedium,
     fontSize: moderateScale(14),
-  }, 
-  categoryTextActive: { 
-    color: Colors.colors.primary
-  }, 
-  filterContainer: {
-    marginTop: verticalScale(30),
-    height: verticalScale(200),
-    borderRadius: moderateScale(10),
-    borderWidth: 1,
-    borderColor: '#ffffffff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
   },
+
+  categoryTextActive: {
+    color: Colors.colors.primary
+  },
+
+  cardsContainer: {
+    marginTop: verticalScale(10),
+    width: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    gap: verticalScale(5),
+  },
+
 });
 
 export default CategoriesScreen;
