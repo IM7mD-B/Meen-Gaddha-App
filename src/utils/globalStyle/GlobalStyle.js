@@ -65,6 +65,10 @@ const globalStyles = StyleSheet.create({
     fontSize: moderateScale(12),
     fontFamily: Fonts.FontMedium,
   },
+  cardsText: {
+    fontSize: moderateScale(16),
+    fontFamily: Fonts.FontMedium,
+  },
 });
 
 export default globalStyles;
