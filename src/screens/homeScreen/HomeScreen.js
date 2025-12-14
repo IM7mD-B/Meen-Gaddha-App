@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, ScrollView } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
-
+import { useNavigation } from '@react-navigation/native';
 import apiRequests from '../../api/api';
 import Colors from '../../utils/colors/Colors';
 import Header from "../../components/shared/Header";
@@ -18,6 +18,8 @@ const HomeScreen = () => {
   const [exclusive, setExclusive] = useState([]); 
 
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const navigation = useNavigation()
 
   // API 
   useEffect(() => {
@@ -107,7 +109,8 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <Header showProfile />
+      <Header showProfile
+      onProfilePress={() => navigation.navigate('Welcome')} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}

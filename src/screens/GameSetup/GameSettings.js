@@ -1,5 +1,5 @@
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingView } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, FlatList,Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/shared/Header'
 import CustomInput from '../../components/shared/CustomInput'
 import Dropdown from "../../components/custom/dropdown";
@@ -7,11 +7,36 @@ import { moderateScale, verticalScale, scale } from 'react-native-size-matters'
 import { Fonts } from '../../../assets/fonts/Fonts';
 import colors from '../../utils/colors/Colors';
 import globalStyles from '../../utils/globalStyle/GlobalStyle'
+import apiRequests from '../../api/api';
 
 const GameSettings = () => {
     const [gameName, setGameName] = useState("")
     const [tameName1, setTeamName1] = useState("")
     const [teamName2, setTeamName2] = useState("")
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        loadCategories()
+    }, [])
+    
+    const loadCategories = async () => {
+        try{
+            const res = await apiRequests.getExclusiveCategory()
+                setCategories(res.data.data || [])
+        }catch (err) {
+            console.log('Error : ', err)
+        }
+    }
+    
+    const renderCategoryCard = ({ item }) => (
+        <View style={styles.cardWrapper}>
+          <View style={styles.cardBox}>
+            <Image source={{ uri: item.photo }} style={styles.cardImage} />
+          <Text style={styles.cardTitle}>{item.category_name}</Text>
+          </View>
+        </View>
+      );
+
     return (
         <KeyboardAvoidingView
             style={{ flex: 1 }}
@@ -34,10 +59,18 @@ const GameSettings = () => {
 
 
                 {/*====== Categorize Cards ====== */}
-                <View style={styles.cardContainer}>
-                    <Text> here all cards</Text>
+                <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{paddingHorizontal:scale(10)}}
+                >
+                    {categories.map((item , index) => (
+                        <View key={index}>
+                            {renderCategoryCard ({item})}
+                        </View>
+                    ))}
+                </ScrollView>
 
-                </View>
                 {/* ====== Input Text ====== */}
                 <View style={styles.inputTextCon}>
                     <Text style={styles.gameText}>
@@ -87,12 +120,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.colors.background,
 
     },
-    cardContainer: {
-        borderWidth: 1,
-        minHeight: verticalScale(100),
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     inputTextCon: {
         marginTop: verticalScale(30)
     },
@@ -102,6 +129,35 @@ const styles = StyleSheet.create({
 
     },
     buttonCon: {
-        marginTop: verticalScale(20),        
+        marginTop: verticalScale(40),
     },
+    cardWrapper: {
+        width: scale(110),
+        alignItems: 'center',
+        marginBottom: verticalScale(5),
+      },
+      
+      cardBox: {
+        width: scale(100),
+        height: scale(147),
+        backgroundColor: colors.colors.primary,
+        borderRadius: moderateScale(16),
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: scale(5),
+      },
+      
+      cardImage: {
+        width: scale(90),
+        height: scale(90),
+        resizeMode: 'contain',
+        marginVertical:verticalScale(5)
+      },
+      
+      cardTitle: {
+        ...globalStyles.cardsText,
+        textAlign: 'center',
+        color:colors.colors.textWight
+      },
+      
 })

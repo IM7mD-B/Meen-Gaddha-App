@@ -7,6 +7,7 @@ export default {
     accentLight: '#FFEFEE',    // لون مساعد فاتح 
     
     text: '#000000',           // لون النص
+    textWight: '#fff',           // لون النص
     background: '#FFFFFF',     // لون الخلفية
     Buttonbackground: '#B83239'
   }

@@ -154,7 +154,7 @@ const SignInScreen = ({ navigation }) => {
                 </View>
 
                 {/* ====== Button SginIn ======*/}
-                <View style={[globalStyles.buttonSginIn, { backgroundColor: colors.colors.Buttonbackground }]}>
+                <View style={[globalStyles.buttonSginIn, { backgroundColor: colors.colors.Buttonbackground, marginTop:verticalScale(20) }]}>
                     <TouchableOpacity onPress={handleSignUp}>
                         <Text style={[styles.signUpText, { color: colors.colors.background }]}>إنشاء الحساب</Text>
                     </TouchableOpacity>
@@ -176,25 +176,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: verticalScale(30),
         marginLeft: scale(20),
-    },
-    textInput: {
-        flex: 1,
-        color: colors.colors.text,
-    },
-    eyeButton: {
-        marginRight: scale(10)
-    },
-    forgetcontainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: verticalScale(20)
-    },
-    forgetText: {
-        marginHorizontal: scale(2),
-        fontSize: moderateScale(16),
-        textDecorationLine: "underline",
-        fontFamily: Fonts.FontMedium
     },
     errorText: {
         color: 'red',
