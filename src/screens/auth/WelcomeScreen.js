@@ -39,7 +39,7 @@ const WelcomeScreen = ({ navigation }) => {
                     <Text style={[styles.guestText, { color: colors.colors.secondary }]}>الدخول كضيف</Text>
                 </TouchableOpacity>
             </View>
-
+         
         </View>
     )
 }

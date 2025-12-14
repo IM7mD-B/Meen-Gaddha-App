@@ -36,7 +36,7 @@ const MainStack = () => {
         <Stack.Screen name="SignUp" component={SginUpScreen} />
         <Stack.Screen name="ForgetPass" component={ForgetPassword} />
 
-        {/* ====== Home ====== */}
+        {/* ====== BottomTab ====== */}
         <Stack.Screen name="Home" component={BottomTab} />
 
 
