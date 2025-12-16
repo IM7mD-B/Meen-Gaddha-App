@@ -12,6 +12,7 @@ import SginInScreen from '../screens/auth/SignInScreen'
 import SginUpScreen from '../screens/auth/SignUpScreen'
 import WelcomeScreen from '../screens/auth/WelcomeScreen'
 import ForgetPassword from '../screens/auth/ForgetPassword'
+import ChangePassword from '../screens/auth/ChangePassword'
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,7 @@ const MainStack = () => {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="SignUp" component={SginUpScreen} />
         <Stack.Screen name="ForgetPass" component={ForgetPassword} />
+        <Stack.Screen name="ChangePass" component={ChangePassword} />
 
         {/* ====== BottomTab ====== */}
         <Stack.Screen name="Home" component={BottomTab} />

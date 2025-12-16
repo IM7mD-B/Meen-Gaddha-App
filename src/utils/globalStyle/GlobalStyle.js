@@ -41,14 +41,12 @@ const globalStyles = StyleSheet.create({
     backgroundColor: colors.colors.primary,
     borderColor: colors.colors.primary,
   },
-  buttonText: {                           //نص داخل الازرار
-    color: colors.colors.primary,
-    fontFamily: Fonts.FontBold,
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-
+  
   // Text Styles 
+  buttonText: {                           //نص داخل الازرار
+    fontFamily: Fonts.FontMedium,
+    fontSize: moderateScale(18),
+  },
   mainTitle: {
     fontSize: moderateScale(18),
     fontFamily: Fonts.FontBold,
@@ -68,6 +66,10 @@ const globalStyles = StyleSheet.create({
   cardsText: {
     fontSize: moderateScale(16),
     fontFamily: Fonts.FontMedium,
+  },
+  WelcomeText: {
+    fontSize: moderateScale(25),
+    fontFamily: Fonts.FontBold,
   },
 });
 
