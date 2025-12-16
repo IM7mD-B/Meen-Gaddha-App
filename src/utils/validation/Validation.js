@@ -32,3 +32,9 @@ export const loginSchema = Yup.object().shape({
     .matches(/[0-9]/, "يجب أن تحتوي على رقم")
     .required("كلمة المرور مطلوبة"),
 });
+export const changePasswordSchema = Yup.object().shape({
+  password: Yup.string()
+    .min(8, "كلمة المرور يجب أن تكون ٨ أحرف على الأقل")
+    .matches(/[0-9]/, "يجب أن تحتوي على رقم")
+    .required("كلمة المرور مطلوبة"),
+});
