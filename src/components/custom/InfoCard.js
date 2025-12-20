@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     titleText: {
-        fontSize: moderateScale(14),
+        fontSize: moderateScale(15),
         fontFamily: Fonts.FontBold,
         textAlign: 'center'
     },
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     subTitleText: {
-        fontSize: moderateScale(9),
+        fontSize: moderateScale(10),
         fontFamily: Fonts.FontSemiBold,
         textAlign: 'center'
 

@@ -2,12 +2,19 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import colors from '../../utils/colors/Colors';
 import InfoCard from '../../components/custom/InfoCard'
-import MyIcon1 from '../../../assets/icons/Start img.svg'
-import MyIcon2 from '../../../assets/icons/Target img.svg'
-import MyIcon3 from '../../../assets/icons/Team img.svg'
+import AssistCard from '../../components/custom/AssistCards'
+import StartIcon from '../../../assets/icons/Start img.svg'
+import TargetIcon from '../../../assets/icons/Target img.svg'
+import TeamIcon from '../../../assets/icons/Team img.svg'
+import ChatGPTIcon from '../../../assets/icons/ChatGPT.svg'
+import ConvertIcon from '../../../assets/icons/Convert.svg'
+import AlarmIcon from '../../../assets/icons/Alarm.svg'
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 import MGIcon from '../../../assets/icons/MG_Icon.svg'
 import { Fonts } from '../../../assets/fonts/Fonts';
+
+
+
 
 const AboutScreen = () => {
     return (
@@ -24,7 +31,7 @@ const AboutScreen = () => {
 
             <View style={styles.infoCardsCon}>
                 <InfoCard
-                    icon={<MyIcon3 />}
+                    icon={<TeamIcon/>}
 
                     showTitle={true}
                     title="كوّنوا فريقكم"
@@ -33,7 +40,7 @@ const AboutScreen = () => {
                 />
                 <View style={[{ marginBottom: verticalScale(20) }]}>
                     <InfoCard
-                        icon={<MyIcon2 />}
+                        icon={<TargetIcon/>}
 
                         showTitle={true}
                         title="حددوا الفئات"
@@ -41,13 +48,13 @@ const AboutScreen = () => {
                         subTitle="اختاروا نوع الأسئلة أو الفئات اللي تحبونها قبل بدء التحدي."
                     />
                 </View>
-                <InfoCard
-                    icon={<MyIcon1 />}
+                <Infoard
+                    icon={<StartIcon/>}
 
                     showTitle={true}
                     title="ابدأوا اللعب !"
                     showSubTitle={true}
-                    subTitle="شغّلوا اللعبة على التلفزيون و اجمعوا 
+                    subTitle=" اجمعوا 
        النقاط، وابدأوا التحدي مع الضحك
         والمتعة!"
                 />
@@ -55,6 +62,33 @@ const AboutScreen = () => {
             
             <View style={styles.titleCon}>
                 <Text style={styles.titleText} >وسائل المساعدة</Text>
+            </View>
+
+            <View style={styles.assistCardsCon}>
+                <AssistCard
+                    icon={<ChatGPTIcon />}
+
+                    showTitle={true}
+                    title="استدعاء العقل المدبر"
+                    showSubTitle={true}
+                    subTitle="اسألوا ChatGPT وخذوا إجابة وحدة قبل ما الوقت يخلص ⏳"
+                />
+                    <AssistCard
+                        icon={<AlarmIcon />}
+
+                        showTitle={true}
+                        title="سكتّهم!!"
+                        showSubTitle={true}
+                        subTitle="امنعوا فريق الخصم من الإجابة على سؤال واحد 🔥"
+                    />
+                <AssistCard
+                    icon={<ConvertIcon />}
+
+                    showTitle={true}
+                    title="تدبيل النقاط !!!"
+                    showSubTitle={true}
+                    subTitle="ضاعفوا نقاط سؤال واحد, فرصة لرفع رصيدكم بسرعة 🔄"
+                />
             </View>
 
         </View>
@@ -72,29 +106,35 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: verticalScale(40)
+        marginVertical: verticalScale(20)
 
     },
     subTitleCon: {
         alignItems: 'center',
         justifyContent: 'center',
-        padding : moderateScale(30)
+        padding : moderateScale(25)
     },
     titleText: {
-        fontSize: moderateScale(18),
+        fontSize: moderateScale(20),
         fontFamily: Fonts.FontBold
     },
     subTitleText: {
-        fontSize: moderateScale(14),
+        fontSize: moderateScale(16),
         fontFamily: Fonts.FontMedium,
         textAlign:'center',
 
     },
     infoCardsCon: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
         alignItems: 'flex-end',
-        marginTop: verticalScale(20)
-
+        marginTop: verticalScale(20),
+    },
+    assistCardsCon:{
+        alignItems:'center',
+        justifyContent:'space-between',
+        flex:1,
+        marginBottom:verticalScale(25)
+        
     },
 })
