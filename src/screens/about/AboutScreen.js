@@ -17,6 +17,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
+
+
+
 const AboutScreen = () => {
     return (
 
