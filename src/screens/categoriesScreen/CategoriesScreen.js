@@ -7,15 +7,20 @@ import { Fonts } from '../../../assets/fonts/Fonts';
 import apiRequests from '../../api/api';
 import { useNavigation } from '@react-navigation/native';
 import CategoryCard from "../../components/custom/CategoryCard";
+import useGameSettingsStore from '../../store/Store';
 
 const CategoriesScreen = () => {
   const navigation = useNavigation();
-  const [selectedNumber, setSelectedNumber] = useState(null);
   const [collectionData, setCollectionData] = useState([]);
   const [tabs, setTabs] = useState(["كل الفئات"]);
   const [selectedFilter, setSelectedFilter] = useState("كل الفئات");
   const [filteredData, setFilteredData] = useState([]);
-  const [selectedCards, setSelectedCards] = useState([]);
+  const {
+    questionsCount,
+    setQuestionsCount,
+    selectedCategory,
+    setSelectedCategory,
+  } = useGameSettingsStore();
 
   const numbers = [4, 6, 8];
 
@@ -51,26 +56,38 @@ const CategoriesScreen = () => {
   };
 
   const selectNumber = (num) => {
-    setSelectedNumber(num);
-    setSelectedCards(prev => prev.slice(0, num));
+    setQuestionsCount(num);
+
+    setSelectedCategory(
+      selectedCategory.slice(0, num)
+    );
   };
 
-  const toggleCard = (id) => {
-    if (!selectedNumber) return;
 
-    const alreadySelected = selectedCards.includes(id);
+
+  const toggleCard = (item) => {
+    if (!questionsCount) return;
+
+    const alreadySelected = selectedCategory.some(cat => cat.id === item.id);
+
+    let updatedSelection = [];
 
     if (alreadySelected) {
-      setSelectedCards(prev => prev.filter(card => card !== id));
-    } else if (selectedCards.length < selectedNumber) {
-      const newSelection = [...selectedCards, id];
-      setSelectedCards(newSelection);
+      updatedSelection = selectedCategory.filter(cat => cat.id !== item.id);
+    } else if (selectedCategory.length < questionsCount) {
+      updatedSelection = [...selectedCategory, item];
+    } else {
+      return;
+    }
 
-      if (newSelection.length === selectedNumber) {
-        navigation.navigate('GameSetting', { selectedCards: newSelection });
-      }
+    setSelectedCategory(updatedSelection);
+
+    if (updatedSelection.length === questionsCount) {
+      navigation.navigate('GameSettings');
     }
   };
+
+
 
   return (
     <View style={styles.container}>
@@ -81,7 +98,7 @@ const CategoriesScreen = () => {
         {/* Number Selector */}
         <View style={styles.numbersContainer}>
           {numbers.map((num) => {
-            const isActive = selectedNumber === num;
+            const isActive = questionsCount === num;
             return (
               <TouchableOpacity
                 key={num}
@@ -123,17 +140,19 @@ const CategoriesScreen = () => {
             collection.category?.map((item) => {
               if (!item) return null;
 
-              const active = selectedCards.includes(item.id);
+              const isActive = selectedCategory.includes(item.id);
 
               return (
                 <CategoryCard
                   key={item.id}
                   item={item}
-                  isActive={selectedCards.includes(item.id)}
-                  disabled={false} 
-                  showOverlay={!selectedNumber} 
-                  onPress={() => toggleCard(item.id)}
+                  isActive={selectedCategory.some(cat => cat.id === item.id)}
+                  disabled={false}
+                  showOverlay={!questionsCount}
+                  onPress={() => toggleCard(item)}
                 />
+
+
 
               );
             })

@@ -1,36 +1,39 @@
-import React, { useEffect } from 'react';
-import { I18nManager } from 'react-native';
-import './i18n'; // 👈 مهم جداً
-// import i18n from './i18n'; // ✅ استورد النسخة الكاملة مباشرة
+import React, { useEffect, useState } from 'react';
+import { I18nManager, Platform } from 'react-native';
+import './i18n';
 import { useTranslation } from 'react-i18next';
 import RNRestart from 'react-native-restart';
-import { isAndroid, storageHandler } from './src/utils/helpers/Helpers';
+import { storageHandler } from './src/utils/helpers/Helpers';
 import MainStack from './src/stacks/MainStack';
 
 export default function App() {
   const { i18n } = useTranslation();
-  const language = i18n.language;
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     (async () => {
       const lang = await storageHandler('get', 'language');
-      // const appLanguage = lang || language;
-      // if (lang == null) {
-      I18nManager.allowRTL(true);
+      const appLanguage = lang || 'ar';
+
+      i18n.changeLanguage(appLanguage);
+
+      // تفعيل RTL
+      if (!I18nManager.isRTL) {
+        I18nManager.allowRTL(true);
         I18nManager.forceRTL(true);
-        await i18n.changeLanguage('ar');
-        await storageHandler('store', 'language', 'ar');
-        if (isAndroid() && !I18nManager.isRTL) RNRestart.restart();
-      // } else {
-      //   i18n.changeLanguage(appLanguage);
-      // }
+
+        //  يعيد التشغيل تلقائيًا
+        if (Platform.OS === 'android'|| Platform.OS === 'ios') {
+          RNRestart.Restart();
+        }
+      }
+
+      await storageHandler('store', 'language', appLanguage);
+      setReady(true);
     })();
   }, []);
 
-  useEffect(() => {
-    I18nManager.allowRTL(language === 'ar');
-    I18nManager.forceRTL(language === 'ar');
-  }, [language]);
+  if (!ready) return null;
 
-  return (
-      <MainStack />
-  );}
+  return <MainStack />;
+}
