@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, FlatList,Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, FlatList, Image, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/shared/Header'
 import CustomInput from '../../components/shared/CustomInput'
@@ -8,34 +8,32 @@ import { Fonts } from '../../../assets/fonts/Fonts';
 import colors from '../../utils/colors/Colors';
 import globalStyles from '../../utils/globalStyle/GlobalStyle'
 import apiRequests from '../../api/api';
+import { useNavigation } from '@react-navigation/native';
+import useGameSettingsStore from '../../store/Store';
 
 const GameSettings = () => {
-    const [gameName, setGameName] = useState("")
-    const [tameName1, setTeamName1] = useState("")
-    const [teamName2, setTeamName2] = useState("")
-    const [categories, setCategories] = useState([])
+    const navigation = useNavigation();
 
-    useEffect(() => {
-        loadCategories()
-    }, [])
-    
-    const loadCategories = async () => {
-        try{
-            const res = await apiRequests.getExclusiveCategory()
-                setCategories(res.data.data || [])
-        }catch (err) {
-            console.log('Error : ', err)
-        }
-    }
-    
+    // ====== Zustand Store ======
+    const {
+        gameName,
+        teamName1,
+        teamName2,
+        selectedCategory,
+        setGameName,
+        setTeamName1,
+        setTeamName2,
+    } = useGameSettingsStore();
+
+
     const renderCategoryCard = ({ item }) => (
         <View style={styles.cardWrapper}>
-          <View style={styles.cardBox}>
-            <Image source={{ uri: item.photo }} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>{item.category_name}</Text>
-          </View>
+            <View style={styles.cardBox}>
+                <Image source={{ uri: item.photo }} style={styles.cardImage} />
+                <Text style={styles.cardTitle}>{item.category_name}</Text>
+            </View>
         </View>
-      );
+    );
 
     return (
         <KeyboardAvoidingView
@@ -50,6 +48,7 @@ const GameSettings = () => {
                 title="جهز اللعبة"
                 onBackPress={() => navigation.goBack()}
             />
+
             <ScrollView
                 style={styles.container}
                 contentContainerStyle={{ paddingBottom: verticalScale(50) }} // عشان مايعلق شي أسفل
@@ -57,16 +56,15 @@ const GameSettings = () => {
                 keyboardShouldPersistTaps="handled" // عشان لما تضغط على زر يتفاعل بدون غلق الكيبورد
             >
 
-
                 {/*====== Categorize Cards ====== */}
                 <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{paddingHorizontal:scale(10)}}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ paddingHorizontal: scale(10) }}
                 >
-                    {categories.map((item , index) => (
+                    {selectedCategory.map((item, index) => (
                         <View key={index}>
-                            {renderCategoryCard ({item})}
+                            {renderCategoryCard({ item })}
                         </View>
                     ))}
                 </ScrollView>
@@ -77,24 +75,35 @@ const GameSettings = () => {
                         🕹️  اسم اللعبة
                     </Text>
 
-                    <CustomInput placeholder=" سموها بطريقتكم!"
+                    <CustomInput
+                        placeholder=" سموها بطريقتكم!"
                         shape="gameName"
                         value={gameName}
                         onChangeText={setGameName}
-                        maxLength={20}
-                        showCounter={true} />
-                    <CustomInput placeholder="  اسم الفريق الأول"
-                        shape="teamName" value={tameName1}
+                        maxLength={10}
+                        showCounter={true}
+                    />
+
+                    <CustomInput
+                        placeholder="  اسم الفريق الأول"
+                        shape="teamName"
+                        value={teamName1}
                         onChangeText={setTeamName1}
-                        maxLength={15}
-                        showCounter={true} />
-                    <CustomInput placeholder=" اسم الفريق الثاني "
+                        maxLength={10}
+                        showCounter={true}
+                    />
+
+                    <CustomInput
+                        placeholder=" اسم الفريق الثاني "
                         shape="teamName"
                         value={teamName2}
                         onChangeText={setTeamName2}
-                        maxLength={15}
-                        showCounter={true} />
+                        maxLength={10}
+                        showCounter={true}
+                    />
+
                 </View>
+
                 <View>
                     <Dropdown />
                 </View>
@@ -102,7 +111,9 @@ const GameSettings = () => {
                 <View style={styles.buttonCon}>
                     <View style={[globalStyles.buttonMedium, { backgroundColor: colors.colors.Buttonbackground }]}>
                         <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                            <Text style={[globalStyles.mainTitle, { color: colors.colors.background }]}>إنشاء الحساب</Text>
+                            <Text style={[globalStyles.mainTitle, { color: colors.colors.background }]}>
+                               ابدأ اللعب
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -118,7 +129,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.colors.background,
-
     },
     inputTextCon: {
         marginTop: verticalScale(30)
@@ -126,7 +136,6 @@ const styles = StyleSheet.create({
     gameText: {
         fontSize: moderateScale(22),
         fontFamily: Fonts.FontBold,
-
     },
     buttonCon: {
         marginTop: verticalScale(40),
@@ -135,9 +144,8 @@ const styles = StyleSheet.create({
         width: scale(110),
         alignItems: 'center',
         marginBottom: verticalScale(5),
-      },
-      
-      cardBox: {
+    },
+    cardBox: {
         width: scale(100),
         height: scale(147),
         backgroundColor: colors.colors.primary,
@@ -145,19 +153,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: scale(5),
-      },
-      
-      cardImage: {
+    },
+    cardImage: {
         width: scale(90),
         height: scale(90),
         resizeMode: 'contain',
-        marginVertical:verticalScale(5)
-      },
-      
-      cardTitle: {
+        marginVertical: verticalScale(5)
+    },
+    cardTitle: {
         ...globalStyles.cardsText,
         textAlign: 'center',
-        color:colors.colors.textWight
-      },
-      
+        color: colors.colors.textWight
+    },
 })
