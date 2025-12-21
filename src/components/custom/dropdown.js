@@ -10,7 +10,7 @@ const dropdown = () => {
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState(null)
 
-    const options = [4, 6, 8]
+    const options = [4, 6]
 
     const handleSelect = (value) => {
         setSelected(value)
