@@ -10,6 +10,7 @@ import Mail from "../../../assets/icons/Mail.svg";
 import CustomInput from '../../components/shared/CustomInput'
 import { Fonts } from '../../../assets/fonts/Fonts';
 import apiRequests from '../../api/api'
+import useAuthStore from '../../store/AuthStore'; 
 
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,9 @@ const SignInScreen = ({ navigation }) => {
     email: '',
     password: '',
   });
+
+  // Zustand login action
+  const login = useAuthStore(state => state.login);
 
   const handleLogin = async () => {
     try {
@@ -40,9 +44,12 @@ const SignInScreen = ({ navigation }) => {
       })
       console.log('Login Response', response.data)
 
+      // تخزين المستخدم + التوكن
+      await login(response.data.token, response.data.User);
+
       Alert.alert("تم ✅", "تم تسجيل الدخول بنجاح!")
 
-      navigation.navigate('Home')
+      // التنقل يتم تلقائي من Navigation حسب isAuthenticated
 
     } catch (err) {
       if (err.inner) {
@@ -55,16 +62,17 @@ const SignInScreen = ({ navigation }) => {
       } else if (err.response) {
 
         // لو الخطأ من السيرفر
-        console.log('Server Error:', err.response.data);  // 🔹 هنا تشوف التفاصيل
+        console.log('Server Error:', err.response.data);  
         Alert.alert("خطأ ❌", err.response.data.message || "حدثت مشكلة");
       
       }else{
         
         console.log('Login Error:', err)
-        Alert.alert('خطأ ❌", "حدثت مشكلة في تسجيل الدخول')
+        Alert.alert("خطأ ❌", "حدثت مشكلة في تسجيل الدخول")
       }
     }
   }
+
   return (
     <View style={styles.container}>
 

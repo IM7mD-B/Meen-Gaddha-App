@@ -6,6 +6,8 @@ const apiRequests = {
 
     getExclusiveCategory: () => api.get('/api/category/exclusive-category'),
 
+    getAllCategories: () => api.get('/api/getAllCategories'),
+
     getCollection: () => api.get('/api/collection'),
 
 

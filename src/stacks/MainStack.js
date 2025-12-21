@@ -4,15 +4,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LoginScreen from '../screens/auth/LoginScreen';
-import GameSetting from '../screens/GameSetup/GameSettings';
+import GameSettings from '../screens/GameSetup/GameSettings';
 import SplashScreen from '../screens/auth/SplashScreen';
-import GameInstructions from '../screens/Instrucation/GameInstructions'
+import GameInstructions from '../screens/Instrucation/GameInstructions';
 import BottomTab from '../components/shared/BottomTabs';
 import SginInScreen from '../screens/auth/SignInScreen'
 import SginUpScreen from '../screens/auth/SignUpScreen'
 import WelcomeScreen from '../screens/auth/WelcomeScreen'
 import ForgetPassword from '../screens/auth/ForgetPassword'
 import ChangePassword from '../screens/auth/ChangePassword'
+import CategoriesScreen from '../screens/categoriesScreen/CategoriesScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -28,7 +29,7 @@ const MainStack = () => {
       >
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="GameInstructions" component={GameInstructions} />
-        <Stack.Screen name="GameSetting" component={GameSetting} />
+        <Stack.Screen name="GameSettings" component={GameSettings} />
         
         {/* ====== Auth ====== */}
         <Stack.Screen name="Login" component={LoginScreen} />
@@ -40,6 +41,7 @@ const MainStack = () => {
 
         {/* ====== BottomTab ====== */}
         <Stack.Screen name="Home" component={BottomTab} />
+        <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
 
 
 

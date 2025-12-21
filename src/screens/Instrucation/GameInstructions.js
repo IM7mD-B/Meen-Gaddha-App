@@ -1,12 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, I18nManager, StyleSheet } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { Fonts } from '../../../assets/fonts/Fonts';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // SVG
 import Left_Arrow from "../../../assets/icons/Left_Arrow.svg";
-import Right_Arrow from "../../../assets/icons/Right_Arrow.svg";
+import Right_Arrow from '../../../assets/icons/Right_Arrow.svg';
 import TeamImage from '../../../assets/images/TeamImage.svg';
 import Categories from '../../../assets/images/Categories.svg';
 import WelcomeImage from '../../../assets/images/WelcomeImage.svg';
@@ -37,7 +38,6 @@ const onboardingData = [
                     height={verticalScale(275)}
                     style={styles.svgMargin}
                 />
-
             </View>
         ),
         title: 'جمّع فريقك وتحدّوا بعض!',
@@ -53,7 +53,6 @@ const onboardingData = [
                     height={verticalScale(300)}
                     style={styles.svgMargin}
                 />
-
             </View>
         ),
         title: 'فزعة، تحدي، وضحك؟ 😎',
@@ -66,6 +65,20 @@ const GameInstructions1 = () => {
     const navigation = useNavigation();
     const flatListRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [shouldShow, setShouldShow] = useState(false);
+
+    useEffect(() => {
+        const checkFirstTime = async () => {
+            const hasSeen = await AsyncStorage.getItem('hasSeenInstructions');
+            if (!hasSeen) {
+                setShouldShow(true);
+            } else {
+                // إذا سبق عرض القيم انستركشنز مباشرة نروح للصفحة الرئيسية
+                navigation.replace('Welcome'); // أو Home حسب الحالة
+            }
+        };
+        checkFirstTime();
+    }, []);
 
     const handleNext = () => {
         if (currentIndex < onboardingData.length - 1) {
@@ -86,7 +99,8 @@ const GameInstructions1 = () => {
         handleDone();
     };
 
-    const handleDone = () => {
+    const handleDone = async () => {
+        await AsyncStorage.setItem('hasSeenInstructions', 'true'); 
         navigation.navigate('Home');
     };
 
@@ -95,6 +109,8 @@ const GameInstructions1 = () => {
             setCurrentIndex(viewableItems[0].index);
         }
     }).current;
+
+    if (!shouldShow) return null; // ما نعرض الانستركشنز إلا إذا هي المرة الأولى
 
     return (
         <View style={styles.container}>
@@ -145,7 +161,6 @@ const GameInstructions1 = () => {
                 )}
             </View>
 
-
             <View style={styles.buttonsContainer}>
                 {currentIndex < onboardingData.length - 1 ? (
                     <>
@@ -158,8 +173,7 @@ const GameInstructions1 = () => {
                         <TouchableOpacity onPress={handleSkip}>
                             <Text style={styles.buttonSkip}>تخطي</Text>
                         </TouchableOpacity>
-                        {/* style={styles.ButtonNext} */}
-                        <TouchableOpacity onPress={handleNext}  style={[styles.ButtonNext,{ width: currentIndex === 0 ? scale(310) : scale(230) }]}>
+                        <TouchableOpacity onPress={handleNext} style={[styles.ButtonNext,{ width: currentIndex === 0 ? scale(310) : scale(230) }]}>
                             <Text style={styles.buttonText}>كمل  </Text>
                             <Left_Arrow/>
                         </TouchableOpacity>
@@ -177,7 +191,6 @@ const GameInstructions1 = () => {
                         </TouchableOpacity>
                     </View>
                 )}
-
             </View>
         </View>
     );
@@ -185,6 +198,7 @@ const GameInstructions1 = () => {
 
 export default GameInstructions1;
 
+// === Styles ===
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -198,7 +212,6 @@ const styles = StyleSheet.create({
         padding: moderateScale(20),
     },
     rowImages: {
-
         marginBottom: verticalScale(20),
     },
     title: {
@@ -262,7 +275,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 20,
         flexDirection:"row",
-
     },
     buttonBack: {
         backgroundColor: "#B83239",
@@ -271,6 +283,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20
-
     }
 });
