@@ -39,12 +39,6 @@ const WelcomeScreen = ({ navigation }) => {
                     <Text style={[styles.guestText, { color: colors.colors.secondary }]}>الدخول كضيف</Text>
                 </TouchableOpacity>
             </View>
-            <View>
-                <TouchableOpacity onPress={() => navigation.navigate('ChangePass')}>
-                    <Text style={[styles.guestText, { color: colors.colors.secondary }]}>الدخول كضيف</Text>
-                </TouchableOpacity>
-            </View>
-         
         </View>
     )
 }
