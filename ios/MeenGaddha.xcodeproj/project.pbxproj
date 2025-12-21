@@ -17,6 +17,9 @@
 		9C890E159C684C6EA7B8231C /* Cairo-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B5936818E4445789191891B /* Cairo-Light.ttf */; };
 		B85CBEACF8F25F08B78F4A94 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c84b21a6c00c20bdf3e6465637e42cf7d123c301
 		FC90C3349FF24B9DA5B9371D /* Cairo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29196695E9964AC297461B58 /* Cairo-Black.ttf */; };
 		E7D847DE58824B4F920E384D /* Cairo-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CCCADA17DA54F12A75289C4 /* Cairo-ExtraBold.ttf */; };
 		D76CBFABFB594CBEA8654CC6 /* Cairo-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2912F5FDE53C48CFAD629C58 /* Cairo-ExtraLight.ttf */; };
@@ -26,6 +29,7 @@
 		C9F31B5DCDD64CFCB8742B6A /* Cairo SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E976D2CAA1B24B108C6B2767 /* Cairo SemiBold.ttf */; };
 		038FA3E3227E4BCE97E423A1 /* Cairo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F5018AF08A54A55A0D0A4A4 /* Cairo.ttf */; };
 		32DE1D9E72CE4FBBAF911369 /* Fonts.js in Resources */ = {isa = PBXBuildFile; fileRef = 1EA1C60F2C144E8C8507F219 /* Fonts.js */; };
+<<<<<<< HEAD
 =======
 		C9F31B5DCDD64CFCB8742B6A /* Cairo SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E976D2CAA1B24B108C6B2767 /* Cairo SemiBold.ttf */; };
 		CBE3C2061DEB48B0823E211A /* Cairo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E1B00F7C4B84FD59DAD244E /* Cairo-Regular.ttf */; };
@@ -33,6 +37,8 @@
 		E7D847DE58824B4F920E384D /* Cairo-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CCCADA17DA54F12A75289C4 /* Cairo-ExtraBold.ttf */; };
 		FC90C3349FF24B9DA5B9371D /* Cairo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29196695E9964AC297461B58 /* Cairo-Black.ttf */; };
 >>>>>>> 948913e62f35a7e7a43a8400f78d7c6a8a6481e6
+=======
+>>>>>>> c84b21a6c00c20bdf3e6465637e42cf7d123c301
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
