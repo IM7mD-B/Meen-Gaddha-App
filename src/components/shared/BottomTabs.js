@@ -4,6 +4,7 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 import HomeScreen from "../../screens/homeScreen/HomeScreen";
 import CategoriesScreen from "../../screens/categoriesScreen/CategoriesScreen";
+import ProfileGate from "../../components/custom/ProfileGate";
 import Fonts from "../../../assets/fonts/Fonts";
 import Colors from "../../utils/colors/Colors";
 
@@ -65,7 +66,7 @@ const BottomTab = () => {
       <Tab.Screen name="About" component={EmptyScreen} options={{ tabBarLabel: tabLabels.About }} />
       <Tab.Screen name="Categories" component={CategoriesScreen} options={{ tabBarLabel: tabLabels.Categories}} />
       <Tab.Screen name="HomeScreen" component={HomeScreen} options={{ tabBarLabel: tabLabels.Home }} />
-      <Tab.Screen name="Profile" component={EmptyScreen} options={{ tabBarLabel: tabLabels.Profile }} />
+      <Tab.Screen name="Profile" component={ProfileGate} options={{ tabBarLabel: tabLabels.Profile }} />
 
     </Tab.Navigator>
   );
