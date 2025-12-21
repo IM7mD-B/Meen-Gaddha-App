@@ -48,7 +48,7 @@ const AboutScreen = () => {
                         subTitle="اختاروا نوع الأسئلة أو الفئات اللي تحبونها قبل بدء التحدي."
                     />
                 </View>
-                <Infoard
+                <InfoCard
                     icon={<StartIcon/>}
 
                     showTitle={true}
