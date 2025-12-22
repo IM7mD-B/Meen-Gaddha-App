@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: scale(25),
         paddingVertical: verticalScale(2),
         borderRadius: moderateScale(8),
-        marginHorizontal:scale(5)
+        marginHorizontal: scale(5)
     },
     timerText: {
         color: Colors.colors.background,
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
         borderRadius: moderateScale(25),
         borderWidth: 2,
         borderColor: "#8E221F",
-        borderTopLeftRadius:moderateScale(0),
-        borderTopRightRadius:moderateScale(0)
+        borderTopLeftRadius: moderateScale(0),
+        borderTopRightRadius: moderateScale(0)
     },
     pointsText: {
         fontSize: moderateScale(18),
@@ -131,13 +131,13 @@ const styles = StyleSheet.create({
         marginVertical:verticalScale(10)
     },
     ansText: {
-        fontSize: moderateScale(20),
+        fontSize: moderateScale(18),
+        fontWeight: 'bold',
         color: Colors.colors.text,
-        fontFamily: Fonts.FontBold
     },
     textContainer: {
         marginHorizontal: scale(10),
-        width: scale(230),
+        width: scale(250)
     },
     questionText: {
         fontSize: moderateScale(18),
