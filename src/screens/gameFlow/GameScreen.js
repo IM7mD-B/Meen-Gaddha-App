@@ -58,7 +58,7 @@ export default function GameScreen() {
             ]}
           >
             {row.map(cat => (
-              <CategoryCard key={cat.id} category={cat} />
+              <CategoryCard key={cat.id} item={cat} />
             ))}
           </View>
         ))}
