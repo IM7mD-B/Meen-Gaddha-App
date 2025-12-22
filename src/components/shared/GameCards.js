@@ -10,6 +10,8 @@ const GameCards = ({
     points = null,
     showTimer = false,
     timer = 60,
+    showAns = false,
+    Ans = 'الجواب :',
 }) => {
 
     const [countdown, setCountdown] = useState(timer);
@@ -45,11 +47,16 @@ const GameCards = ({
             )}
 
             <View style={styles.content}>
-
-                <View style={styles.textContainer}>
-                    <Text style={styles.questionText}>{title}</Text>
+                <View style={styles.ansContent}>
+                    {showAns && (
+                        <View style={styles.ansContainer}>
+                            <Text style={styles.ansText}>{Ans}</Text>
+                        </View>
+                    )}
+                    <View style={styles.textContainer}>
+                        <Text style={styles.questionText}>{title}</Text>
+                    </View>
                 </View>
-
                 {imageUri ? (
                     <Image source={{ uri: imageUri }} style={styles.image} resizeMode="cover" />
                 ) : null}
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
         elevation: 3,
         borderWidth: 2,
         borderColor: "#8E221F",
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     timerContainer: {
         position: 'absolute',
@@ -85,7 +92,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: scale(25),
         paddingVertical: verticalScale(2),
         borderRadius: moderateScale(8),
-        marginHorizontal:scale(5)
+        marginHorizontal: scale(5)
     },
     timerText: {
         color: Colors.colors.background,
@@ -101,8 +108,8 @@ const styles = StyleSheet.create({
         borderRadius: moderateScale(25),
         borderWidth: 2,
         borderColor: "#8E221F",
-        borderTopLeftRadius:moderateScale(0),
-        borderTopRightRadius:moderateScale(0)
+        borderTopLeftRadius: moderateScale(0),
+        borderTopRightRadius: moderateScale(0)
     },
     pointsText: {
         fontSize: moderateScale(18),
@@ -115,15 +122,27 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: verticalScale(25),
     },
+    ansContent: {
+        alignItems: 'center',
+        marginBottom:verticalScale(20)
+    },
+    ansContainer: {
+        marginVertical:verticalScale(10)
+    },
+    ansText: {
+        fontSize: moderateScale(18),
+        fontWeight: 'bold',
+        color: Colors.colors.text,
+    },
     textContainer: {
         marginHorizontal: scale(10),
-        width:scale(250)
+        width: scale(250)
     },
     questionText: {
         fontSize: moderateScale(18),
         fontWeight: 'bold',
         color: Colors.colors.text,
-        textAlign:'center'
+        textAlign: 'center'
     },
     image: {
         width: scale(240),

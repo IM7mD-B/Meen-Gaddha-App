@@ -28,6 +28,7 @@ const AnswerScreen = () => {
                     imageUri= {image}
                     points={200}
                     showTimer={true}
+                    showAns={true}
                 />
             </SafeAreaView>
         </View>
