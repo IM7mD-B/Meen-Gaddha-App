@@ -11,6 +11,7 @@ import GameCard from '../../components/shared/GameCards';
 import AssistButton from '../../components/shared/AssistButton';
 import colors from "../../utils/colors/Colors";
 import image from '../../../assets/images/Meen_Gaddha_Logo.svg'
+import QuestionScreen from './QuestionScreen';
 
 
 
