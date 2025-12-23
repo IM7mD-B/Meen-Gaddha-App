@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: scale(5),
         right: scale(5),
-        backgroundColor: Colors.colors.primary,
+        backgroundColor: Colors.colors.secondary,
         paddingHorizontal: scale(25),
         paddingVertical: verticalScale(2),
         borderRadius: moderateScale(8),
@@ -149,5 +149,6 @@ const styles = StyleSheet.create({
         height: verticalScale(110),
         borderRadius: moderateScale(8),
         borderWidth: 1,
+        
     },
 });
