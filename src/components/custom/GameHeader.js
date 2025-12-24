@@ -5,12 +5,12 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 import LogoIcon from "../../../assets/images/Meen_Gaddha_Logo.svg";
 import LogoutIcon from "../../../assets/icons/Logout.svg";
-import Fonts from "../../../assets/fonts/Fonts";
+import { Fonts } from '../../../assets/fonts/Fonts';
 import Colors from "../../utils/colors/Colors";
 
 const GameHeader = ({
     showLogo = true,
-    showLogout = true,
+    showLogout = false,
     gameName = "",
     onExitPress = () => { },
 }) => {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
 
     gameName: {
         fontSize: moderateScale(20),
-        fontFamily: "Cairo-Bold",
+        fontFamily: Fonts.FontBold,
         color: Colors.colors.text,
     },
 

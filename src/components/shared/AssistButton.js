@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import React, { useState } from 'react';
+import { Fonts } from '../../../assets/fonts/Fonts';
+import { moderateScale, verticalScale, scale } from 'react-native-size-matters';
 
 import Diamond from '../../../assets/icons/Diamond.svg'
 import Robot from '../../../assets/icons/Robot.svg'
@@ -24,6 +26,7 @@ const AssistButton = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.titleText}>وسائل المساعدة</Text>
             {buttons.map((btn, index) => {
                 const IconComponent = btn.Image;
                 return (
@@ -37,7 +40,7 @@ const AssistButton = () => {
                         </Text>
 
                         <View style={[styles.iconContainer, { borderColor: clicked[index] ? '#888' : '#690303' }]}>
-                            <IconComponent width={24} height={24} fill="#000" />
+                            <IconComponent width={20} height={20} fill="#000" />
                         </View>
                     </Pressable>
                 );
@@ -53,26 +56,28 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center'
     },
+    titleText:{
+        fontFamily:Fonts.FontBold,
+        fontSize:moderateScale(16)
+    },
     button: {
-        marginHorizontal: 5,
-        paddingVertical: 1,
-        borderRadius: 8,
+        paddingVertical: verticalScale(3),
+        borderRadius: moderateScale(8),
         alignItems: 'center',
         flexDirection: 'row-reverse',
         justifyContent: 'flex-end',
     },
     icon: {
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
     },
     text: {
-        marginTop: 5,
-        fontWeight: 'bold',
-        marginLeft: 10
+        marginLeft: scale(5),
+        fontFamily:Fonts.FontBold,
     },
     iconContainer: {
-        borderWidth: 3,
-        borderRadius: 20, // إذا تبغى يكون دائري
-        padding: 6,       // فراغ بين البوردر والأيقونة
+        borderWidth: moderateScale(2.5),
+        borderRadius: moderateScale(20), 
+        padding: moderateScale(5),       
         alignItems: 'center',
         justifyContent: 'center',
       },
