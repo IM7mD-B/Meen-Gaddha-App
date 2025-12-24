@@ -71,11 +71,10 @@ export default GameCards
 
 const styles = StyleSheet.create({
     card: {
-        width: scale(550),
+        width: scale(530),
         borderRadius: moderateScale(30),
         backgroundColor: Colors.colors.background,
         padding: scale(20),
-        marginVertical: verticalScale(8),
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
@@ -93,12 +92,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: scale(25),
         paddingVertical: verticalScale(2),
         borderRadius: moderateScale(8),
-        marginHorizontal: scale(5)
+        marginHorizontal: scale(10),
+        marginVertical: verticalScale(5)
     },
     timerText: {
         color: Colors.colors.background,
         fontSize: moderateScale(15),
-        fontWeight: 'bold',
+        fontWeight:'bold'
     },
     pointsContainer: {
         position: 'absolute',
@@ -131,13 +131,13 @@ const styles = StyleSheet.create({
         marginVertical:verticalScale(10)
     },
     ansText: {
-        fontSize: moderateScale(18),
-        fontWeight: 'bold',
+        fontSize: moderateScale(20),
         color: Colors.colors.text,
+        fontFamily: Fonts.FontBold
     },
     textContainer: {
         marginHorizontal: scale(10),
-        width: scale(250)
+        width: scale(230),
     },
     questionText: {
         fontSize: moderateScale(18),
@@ -151,6 +151,5 @@ const styles = StyleSheet.create({
         height: verticalScale(100),
         borderRadius: moderateScale(15),
         borderWidth: 1,
-        
     },
 });
