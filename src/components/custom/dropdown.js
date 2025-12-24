@@ -1,21 +1,23 @@
-import { StyleSheet, Text, View, TouchableOpacity  } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { moderateScale, verticalScale, scale } from 'react-native-size-matters'
 import globalStyles from '../../utils/globalStyle/GlobalStyle'
 import colors from '../../utils/colors/Colors';
+import useGameSettingsStore from '../../store/Store';
 
 
 const dropdown = () => {
 
     const [open, setOpen] = useState(false)
-    const [selected, setSelected] = useState(null)
+    const { questionsCount, setQuestionsCount } = useGameSettingsStore();
 
     const options = [4, 6]
 
     const handleSelect = (value) => {
-        setSelected(value)
-        setOpen(false)
-    }
+        setQuestionsCount(value);
+        setOpen(false);
+    };
+
 
     return (
         <View style={styles.container}>
@@ -26,8 +28,11 @@ const dropdown = () => {
                 onPress={() => setOpen(!open)}
             >
                 <Text style={[globalStyles.subTitle, { color: colors.colors.secondary }]}>
-                    {selected ? `عدد الأسئلة : ${selected}` : "كم سؤال تبغون تتحدون فيه؟ 🤔"}
+                    {questionsCount
+                        ? `عدد الأسئلة : ${questionsCount}`
+                        : "كم سؤال تبغون تتحدون فيه؟ 🤔"}
                 </Text>
+
             </TouchableOpacity>
 
             {open && (

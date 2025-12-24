@@ -5,13 +5,23 @@ import { useTranslation } from 'react-i18next';
 import RNRestart from 'react-native-restart';
 import { storageHandler } from './src/utils/helpers/Helpers';
 import MainStack from './src/stacks/MainStack';
+import useAuthStore from './src/store/AuthStore';
+
 
 export default function App() {
   const { i18n } = useTranslation();
   const [ready, setReady] = useState(false);
 
+  const restoreSession = useAuthStore(state => state.restoreSession);
+
+
   useEffect(() => {
     (async () => {
+
+      // Restore Auth Session
+      await restoreSession();
+
+      // Language
       const lang = await storageHandler('get', 'language');
       const appLanguage = lang || 'ar';
 
@@ -23,8 +33,9 @@ export default function App() {
         I18nManager.forceRTL(true);
 
         //  يعيد التشغيل تلقائيًا
-        if (Platform.OS === 'android'|| Platform.OS === 'ios') {
+        if (Platform.OS === 'android' || Platform.OS === 'ios') {
           RNRestart.Restart();
+          return;
         }
       }
 

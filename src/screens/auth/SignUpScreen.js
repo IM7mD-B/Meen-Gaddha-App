@@ -11,9 +11,13 @@ import CustomInput from '../../components/shared/CustomInput'
 import { Fonts } from '../../../assets/fonts/Fonts';
 import { registerSchema } from '../../utils/validation/Validation';
 import apiRequests from '../../api/api'
+import useAuthStore from '../../store/AuthStore';
 
 
-const SignInScreen = ({ navigation }) => {
+
+const SignInScreen = ({ navigation, route }) => {
+
+    const login = useAuthStore(state => state.login);
 
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
@@ -43,17 +47,27 @@ const SignInScreen = ({ navigation }) => {
                 { abortEarly: false }
             )
 
-            const response = await apiRequests.postRegister({
+            // إنشاء الحساب
+            await apiRequests.postRegister({
                 name,
                 email,
                 password,
                 password_confirmation: confirmPassword
-            })
-            console.log('Register Response', response.data);
+            });
 
-            Alert.alert("تم ✓", "تم إنشاء الحساب بنجاح!");
+            // تسجيل دخول تلقائي
+            const loginResponse = await apiRequests.postLogin({
+                email,
+                password,
+            });
 
-            navigation.navigate("Home");
+            await login(
+                loginResponse.data.token,
+                loginResponse.data.user
+            );
+
+            const redirectTo = route.params?.redirectTo || 'Home';
+            navigation.navigate(redirectTo);
 
         } catch (err) {
 
@@ -66,7 +80,7 @@ const SignInScreen = ({ navigation }) => {
             } else if (err.response) {
 
                 // لو الخطأ من السيرفر
-                console.log('Server Error:', err.response.data); 
+                console.log('Server Error:', err.response.data);
                 Alert.alert("خطأ ❌", err.response.data.message || "حدثت مشكلة");
 
             } else {
@@ -154,7 +168,7 @@ const SignInScreen = ({ navigation }) => {
                 </View>
 
                 {/* ====== Button SginIn ======*/}
-                <View style={[globalStyles.buttonSginIn, { backgroundColor: colors.colors.Buttonbackground, marginTop:verticalScale(20) }]}>
+                <View style={[globalStyles.buttonSginIn, { backgroundColor: colors.colors.Buttonbackground, marginTop: verticalScale(20) }]}>
                     <TouchableOpacity onPress={handleSignUp}>
                         <Text style={[styles.signUpText, { color: colors.colors.background }]}>إنشاء الحساب</Text>
                     </TouchableOpacity>

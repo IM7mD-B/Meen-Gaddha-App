@@ -10,8 +10,12 @@ import globalStyles from '../../utils/globalStyle/GlobalStyle'
 import apiRequests from '../../api/api';
 import { useNavigation } from '@react-navigation/native';
 import useGameSettingsStore from '../../store/Store';
+import useAuthStore from '../../store/AuthStore';
+
 
 const GameSettings = () => {
+    //const { isAuthenticated } = useAuthStore();
+    const isAuthenticated = useAuthStore(state => state.isAuthenticated);
     const navigation = useNavigation();
 
     // ====== Zustand Store ======
@@ -19,12 +23,57 @@ const GameSettings = () => {
         gameName,
         teamName1,
         teamName2,
+        questionsCount,
         selectedCategory,
+        resetGameSettings,
         setGameName,
         setTeamName1,
         setTeamName2,
     } = useGameSettingsStore();
 
+    const handleStartGame = async () => {
+
+        //Validation
+        if (
+            !gameName ||
+            !teamName1 ||
+            !teamName2 ||
+            !questionsCount ||
+            selectedCategory.length === 0
+        ) {
+            return;
+        }
+
+        // المستخدم غير مسجل
+        if (!isAuthenticated) {
+            navigation.navigate('Welcome', {
+                redirectTo: 'GameSettings', // يرجع لنفس الصفحة بعد تسجيل الدخول
+            });
+            return;
+        }
+
+        try {
+            const categoryIds = selectedCategory.map(item => item.id);
+
+            const payload = {
+                count_category: String(categoryIds.length),
+                category_id: categoryIds,
+                name_game: gameName,
+                team_1: teamName1,
+                team_2: teamName2,
+                number_of_questions: String(questionsCount),
+            };
+
+            const response = await apiRequests.postCreationGroup(payload);
+
+            if (response?.data?.status === 'success') {
+                navigation.navigate('GameSettings'); // الصفحة التالية بعد الإعداد////////////////
+            }
+
+        } catch (error) {
+            console.log('Create Game Error:', error);
+        }
+    };
 
     const renderCategoryCard = ({ item }) => (
         <View style={styles.cardWrapper}>
@@ -110,9 +159,9 @@ const GameSettings = () => {
 
                 <View style={styles.buttonCon}>
                     <View style={[globalStyles.buttonMedium, { backgroundColor: colors.colors.Buttonbackground }]}>
-                        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                        <TouchableOpacity onPress={handleStartGame}>
                             <Text style={[globalStyles.mainTitle, { color: colors.colors.background }]}>
-                               ابدأ اللعب
+                                ابدأ اللعب
                             </Text>
                         </TouchableOpacity>
                     </View>

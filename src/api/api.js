@@ -10,11 +10,15 @@ const apiRequests = {
 
     getCollection: () => api.get('/api/collection'),
 
+    getProfile: () => api.get('/api/profile'),
+
 
     //Post
     postLogin: (data) => api.post('/api/login',data),
 
     postRegister: (data) => api.post('/api/register',data),
+
+    postCreationGroup: (data) => api.post('/api/group/creation-group',data),
 
 };
 

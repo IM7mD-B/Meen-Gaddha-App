@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const useAuthStore = create((set) => ({
+const useAuthStore = create((set, get) => ({
   // ====== STATE ======
   token: null,
   user: null,
@@ -55,6 +55,11 @@ const useAuthStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+
+  hasToken: () => {
+    return !!get().token;
+  }, 
+
 }));
 
 export default useAuthStore;

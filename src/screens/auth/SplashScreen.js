@@ -9,14 +9,14 @@ const SplashScreen = ({ navigation }) => {
     const fadeAnimImages = useRef(new Animated.Value(0)).current;
 
     // Zustand
-    const restoreSession = useAuthStore(state => state.restoreSession);
     const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+    const isLoading = useAuthStore(state => state.isLoading);
 
     useEffect(() => {
-        const init = async () => {
 
-            // استرجاع التوكن + المستخدم
-            await restoreSession();
+        if (isLoading) return; 
+
+        const init = async () => {          
 
             // يشوف اذا قد انعرض القيم انستركشن من قبل ولا( يعني اول تشغيل للعبه ولا لا)
             const hasSeenInstructions = await AsyncStorage.getItem('hasSeenInstructions');
@@ -47,7 +47,7 @@ const SplashScreen = ({ navigation }) => {
         }
 
         init();
-    }, []);
+    }, [isLoading]);
 
     return (
         <Animated.View
