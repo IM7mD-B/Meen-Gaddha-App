@@ -5,6 +5,7 @@ export default {
     secondary: '#C32729',      // اللون الثانوي 
     accent: '#FECE5D',         // لون مساعد 
     accentLight: '#FFEFEE',    // لون مساعد فاتح 
+    AnsButton : '#265B13',
     
     text: '#000000',           // لون النص
     textWight: '#fff',           // لون النص

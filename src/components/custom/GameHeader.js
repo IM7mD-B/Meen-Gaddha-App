@@ -12,7 +12,7 @@ import useGameSessionStore from '../../store/GameSessionStore';
 
 const GameHeader = ({
     showLogo = true,
-    showLogout = true,
+    showLogout = false,
     gameName = "",
     onExitPress,
 }) => {

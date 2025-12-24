@@ -41,6 +41,13 @@ const globalStyles = StyleSheet.create({
     backgroundColor: colors.colors.primary,
     borderColor: colors.colors.primary,
   },
+  buttonAns: {                           //ازار وسائل المساعده
+    width: scale(155),
+    height: verticalScale(40),
+    borderRadius: moderateScale(75),
+    justifyContent: "center",
+    alignItems: "center",
+  },
   
   // Text Styles 
   buttonText: {                           //نص داخل الازرار
@@ -70,6 +77,10 @@ const globalStyles = StyleSheet.create({
   WelcomeText: {
     fontSize: moderateScale(25),
     fontFamily: Fonts.FontBold,
+  },
+  ansButtonTitle: {
+    fontSize: moderateScale(18),
+    fontFamily: Fonts.FontSemiBold,
   },
 });
 
