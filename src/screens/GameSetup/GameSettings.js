@@ -11,12 +11,14 @@ import apiRequests from '../../api/api';
 import { useNavigation } from '@react-navigation/native';
 import useGameSettingsStore from '../../store/Store';
 import useAuthStore from '../../store/AuthStore';
-
+import useGameSessionStore from '../../store/GameSessionStore';
 
 const GameSettings = () => {
     //const { isAuthenticated } = useAuthStore();
     const isAuthenticated = useAuthStore(state => state.isAuthenticated);
     const navigation = useNavigation();
+    const startSession = useGameSessionStore(state => state.startSession);
+
 
     // ====== Zustand Store ======
     const {
@@ -67,7 +69,11 @@ const GameSettings = () => {
             const response = await apiRequests.postCreationGroup(payload);
 
             if (response?.data?.status === 'success') {
-                navigation.navigate('GameSettings'); // الصفحة التالية بعد الإعداد////////////////
+                const groupId = response.data.group_id;
+
+                startSession(groupId); //  بدء السيشن
+
+                navigation.navigate('GameScreen');
             }
 
         } catch (error) {
@@ -172,8 +178,6 @@ const GameSettings = () => {
     )
 }
 
-export default GameSettings
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -215,3 +219,5 @@ const styles = StyleSheet.create({
         color: colors.colors.textWight
     },
 })
+
+export default GameSettings

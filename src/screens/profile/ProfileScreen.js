@@ -17,24 +17,24 @@ export default function ProfileScreen() {
     const logout = useAuthStore(state => state.logout);
 
     useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const response = await api.getProfile();
-                const data = response.data;
+    const fetchProfile = async () => {
+        try {
+            const response = await api.getProfile();
+            const data = response.data;
 
-                setUser({
-                    name: data.name,
-                    email: data.email || data.email || 'غير متوفر',
-                });
-            } catch (error) {
-                console.log('Error fetching profile:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+            setUser({
+                name: data.name,
+                email: data.email,
+            });
+        } catch (error) {
+            console.log('Error fetching profile:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        fetchProfile();
-    }, []);
+    fetchProfile();
+}, []);
 
     if (loading) {
         return (
@@ -132,7 +132,7 @@ const SettingButton = ({ title, onPress }) => (
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.colors.Buttonbackground,
+        backgroundColor: Colors.colors.background,
     },
 
     header: {

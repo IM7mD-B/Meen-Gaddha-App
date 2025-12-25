@@ -1,91 +1,117 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import {View, Text, ImageBackground, TouchableOpacity, StyleSheet } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
-import Colors from '../../utils/colors/Colors';
-import { Fonts } from '../../../assets/fonts/Fonts';
+import Colors from "../../utils/colors/Colors";
 
-const CategoryCard = ({
-    item,
-    isActive,
-    disabled,
-    onPress,
-    maroonMode = false,   //  لتغيير اللون
-    showOverlay = false,  //  نضيف هذا البرُوب
-}) => {
-    return (
-        <TouchableOpacity
-            disabled={disabled || showOverlay}  //  إذا showOverlay true يمنع الضغط
-            onPress={onPress}
-            style={[
-                styles.card,
-                maroonMode || isActive ? styles.cardActive : styles.cardInactive,
-            ]}
-        >
-            {/* CategoryImage */}
-            <Image
-                source={{ uri: item?.photo }}
-                style={styles.cardImage}
-                resizeMode="contain"
-            />
-
-            {/* CategoryName */}
-            <Text style={[styles.cardText, (isActive || maroonMode) && styles.cardTextActive]}>
-                {item.category_name}
-            </Text>
-
-            {/* overlay فقط إذا ممنوع الضغط */}
-            {(disabled || showOverlay) && (
-                <View style={styles.overlay} pointerEvents="none" />
-            )}
-        </TouchableOpacity>
-    );
+// فانكشن لتوليد قيم الأزرار
+const generateButtonValues = (count) => {
+  const pairs = count / 2;
+  const values = [];
+  for (let i = 1; i <= pairs; i++) {
+    const value = i * 200;
+    values.push(value, value);
+  }
+  return values;
 };
 
+const CategoryCard = ({ category }) => {
+  const { category_name, photo, questions_count } = category;
+  const values = generateButtonValues(questions_count);
+  const isTwoColumns = questions_count > 4;
 
-const styles = StyleSheet.create({
-    card: {
-        width: "32%",
-        borderRadius: moderateScale(18),
-        paddingVertical: verticalScale(10),
-        paddingHorizontal: scale(8),
-        marginBottom: verticalScale(20),
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-    },
+  return (
+    <View style={styles.cardContainer}>
 
-    cardActive: {
-        backgroundColor: Colors.colors.primary,
-    },
+      <ImageBackground
+        source={
+          category.photo
+            ? { uri: category.photo }
+            : require('../../../assets/images/MeenGaddhaLogo.png')
+        }
+        style={styles.image}
+        imageStyle={{ borderRadius: moderateScale(16) }}
+      >
+        <View style={styles.overlay} />
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{category_name}</Text>
+        </View>
+      </ImageBackground>
 
-    cardInactive: {
-        backgroundColor: Colors.colors.background,
-        borderWidth: 1,
-        borderColor: "#DDD",
-    },
+      <View
+        style={[
+          styles.buttonsContainer,
+          isTwoColumns && { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }
+        ]}
+      >
+        {values.map((value, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[
+              styles.button,
+              isTwoColumns && { width: "48%" }  // عمودين إذا 6 أو 8
+            ]}
+          >
+            <Text style={styles.buttonText}>{value}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
-    cardImage: {
-        width: "80%",
-        height: verticalScale(90),
-        marginBottom: verticalScale(10),
-    },
-
-    cardText: {
-        fontFamily: Fonts.FontMedium,
-        fontSize: moderateScale(16),
-        color: Colors.colors.text,
-        textAlign: "center",
-    },
-
-    cardTextActive: {
-        color: Colors.colors.background,
-    },
-
-    // هذا اللي يعطي شكل "مو مسموح الضغط عليه"
-    overlay: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: "rgba(255,255,255,0.5)",
-    },
-});
+    </View>
+  );
+};
 
 export default CategoryCard;
+
+const styles = StyleSheet.create({
+  cardContainer: {
+    width: "23%",
+    marginBottom: verticalScale(20),
+  },
+
+  image: {
+    width: "100%",
+    height: verticalScale(61),  
+    justifyContent: "center",  
+    alignItems: "center",       
+    borderRadius: moderateScale(16),
+    overflow: "hidden",        
+  },
+
+  overlay: {
+    ...StyleSheet.absoluteFillObject, 
+    backgroundColor: "rgba(0,0,0,0.8)",
+  },
+
+  titleContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: moderateScale(8),
+  },
+
+  title: {
+    color: "#fff",
+    fontSize: moderateScale(18),
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+
+  buttonsContainer: {
+    marginTop: verticalScale(10),
+    justifyContent: "center",  
+    alignItems: "center",      
+  },
+
+  button: {
+    backgroundColor: Colors.colors.primary,
+    paddingVertical: verticalScale(8),
+    width: verticalScale(114),
+    borderRadius: moderateScale(19),
+    marginBottom: verticalScale(8), 
+    alignItems: "center",      
+  },
+
+  buttonText: {
+    color: "#fff",
+    fontSize: moderateScale(16),
+    fontWeight: "600",
+  },
+});

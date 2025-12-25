@@ -12,6 +12,8 @@ const apiRequests = {
 
     getProfile: () => api.get('/api/profile'),
 
+    getGameByGroupId: (groupId) => api.get(`/api/games/${groupId}`),
+
 
     //Post
     postLogin: (data) => api.post('/api/login',data),

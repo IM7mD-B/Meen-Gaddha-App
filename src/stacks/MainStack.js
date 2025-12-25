@@ -14,10 +14,6 @@ import WelcomeScreen from '../screens/auth/WelcomeScreen'
 import ForgetPassword from '../screens/auth/ForgetPassword'
 import CategoriesScreen from '../screens/categoriesScreen/CategoriesScreen'
 import GameScreen from '../screens/gameFlow/GameScreen'
-import SginInScreen from '../screens/auth/SignInScreen'
-import SginUpScreen from '../screens/auth/SignUpScreen'
-import WelcomeScreen from '../screens/auth/WelcomeScreen'
-import GameScreen from '../screens/gameFlow/GameScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -29,7 +25,7 @@ const MainStack = () => {
           headerShown: false,
           animation: 'none',
         }}        // initialRouteName="Login"
-        initialRouteName="GameScreen"
+        initialRouteName="Splash"
       >
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="GameInstructions" component={GameInstructions} />
