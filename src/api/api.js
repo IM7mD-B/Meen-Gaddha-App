@@ -22,6 +22,14 @@ const apiRequests = {
 
     postCreationGroup: (data) => api.post('/api/group/creation-group',data),
 
+    
+    postQuestions: (data) => api.post('/api/questions',data),
+    
+    postAnswer: (data) => api.post('/api/questions/answer',data),
+    
+    postPoint: (data) => api.post('/api/games/point',data),
+    
+    postTotalPoint: (data) => api.post('/api/games/total-point',data),
 };
 
 export default apiRequests;

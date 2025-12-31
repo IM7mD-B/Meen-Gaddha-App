@@ -1,75 +1,54 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { moderateScale, verticalScale, scale } from 'react-native-size-matters';
-import Orientation from 'react-native-orientation-locker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import globalStyles from '../../utils/globalStyle/GlobalStyle'
+import { moderateScale, verticalScale, scale } from 'react-native-size-matters';
 
 import GameHeader from '../../components/custom/GameHeader';
-import TeamTurns from '../../components/custom/AnsTeamTurns';
 import GameCard from '../../components/shared/GameCards';
-import AssistButton from '../../components/shared/AssistButton';
-import colors from "../../utils/colors/Colors";
 import image from '../../../assets/images/Meen_Gaddha_Logo.svg'
+import colors from "../../utils/colors/Colors";
 
 
-
-const AnswerScreen = ({ navigation }) => {
-
-    useEffect(() => {
-        Orientation.lockToLandscape();
-
-        return () => Orientation.unlockAllOrientations();
-    }, []);
-
-    const [teams, setTeams] = useState([
-        { id: 0, name: 'فريق محمد', points: 0 },
-    ]);
-
-    const [activeTeamIndex, setActiveTeamIndex] = useState(0);
-
-    const updatePoints = (teamId, value) => {
-        setTeams(prev =>
-            prev.map(team =>
-                team.id === teamId ? { ...team, points: team.points + value } : team
-            )
-        );
-    };
-
+const AnswerScreen = () => {
     return (
         <View style={styles.container}>
             <GameHeader gameName="اسم اللعبه" />
             <SafeAreaView style={styles.safeContainer}>
-
                 <View>
                     <GameCard
                         title="ما هي أشهر البراندات العالمية؟"
                         imageUri={image}
                         points={200}
-                        showTimer={true}
+                        showAns={true}
+
                     />
 
-                    <View style={[globalStyles.buttonAns, {
-                        backgroundColor: colors.colors.AnsButton,
-                        alignSelf: 'center',
-                        marginTop: verticalScale(20)
+                    <Text style={[globalStyles.mainTitle, { alignSelf: 'center' }]}>مين جاوب صح ؟</Text>
+
+                    <View style={[{
+                        justifyContent: 'space-between',
+                        flexDirection: 'row-reverse',
                     }]}>
-                        <TouchableOpacity onPress={() => navigation.navigate('QScreen')}>
-                            <Text style={[globalStyles.ansButtonTitle, { color: colors.colors.textWight }]}>طلع الجواب </Text>
-                        </TouchableOpacity>
+
+                        <View style={[globalStyles.buttonTeam]}>
+                            <TouchableOpacity onPress={() => navigation.navigate('QScreen')}>
+                                <Text style={[globalStyles.teamButtonTitle]}>طلع الجواب </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={[globalStyles.buttonTeam, { marginTop: 15 }]}>
+                            <TouchableOpacity onPress={() => navigation.navigate('QScreen')}>
+                                <Text style={[globalStyles.teamButtonTitle]}>ولا أحد</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={[globalStyles.buttonTeam]}>
+                            <TouchableOpacity onPress={() => navigation.navigate('QScreen')}>
+                                <Text style={[globalStyles.teamButtonTitle]}>طلع الجواب </Text>
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
-                </View>
-
-                <View>
-                        <TeamTurns
-                            team={teams[0]}
-                            imageVariant= 'team1'
-                            showPoints={true}
-                            onIncrease={(id) => updatePoints(id, 100)}
-                            onDecrease={(id) => updatePoints(id, -100)}
-                        />
-                    <AssistButton />
-
                 </View>
 
             </SafeAreaView>
@@ -80,14 +59,13 @@ const AnswerScreen = ({ navigation }) => {
 export default AnswerScreen
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         backgroundColor: colors.colors.background,
+
     },
     safeContainer: {
         flexDirection: 'row-reverse',
         justifyContent: 'space-around'
     }
-
 })

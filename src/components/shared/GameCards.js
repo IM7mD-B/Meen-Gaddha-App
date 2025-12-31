@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
         elevation: 3,
         borderWidth: 2,
         borderColor: "#8E221F",
-        alignSelf: 'center'
+        alignSelf: 'center',
+        height:verticalScale(165)
     },
     timerContainer: {
         position: 'absolute',
@@ -120,8 +121,9 @@ const styles = StyleSheet.create({
     content: {
         flexDirection: 'row-reverse',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        marginTop: verticalScale(25),
+        justifyContent: 'space-around',
+        height:verticalScale(140),
+        padding:moderateScale(8)
     },
     ansContent: {
         alignItems: 'center',
@@ -136,7 +138,6 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.FontBold
     },
     textContainer: {
-        marginHorizontal: scale(10),
         width: scale(230),
     },
     questionText: {

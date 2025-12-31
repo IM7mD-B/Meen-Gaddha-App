@@ -48,6 +48,14 @@ const globalStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  buttonTeam: {                           //ازار وسائل المساعده
+    width: scale(142),
+    borderRadius: moderateScale(75),
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth:1.5,
+    height:verticalScale(31)
+  },
   
   // Text Styles 
   buttonText: {                           //نص داخل الازرار
@@ -80,6 +88,10 @@ const globalStyles = StyleSheet.create({
   },
   ansButtonTitle: {
     fontSize: moderateScale(18),
+    fontFamily: Fonts.FontSemiBold,
+  },
+  teamButtonTitle: {
+    fontSize: moderateScale(15),
     fontFamily: Fonts.FontSemiBold,
   },
 });
