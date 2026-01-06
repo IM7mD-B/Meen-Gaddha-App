@@ -46,9 +46,15 @@ const SignInScreen = ({ navigation, route }) => {
 
       // تخزين المستخدم + التوكن
       await login(response.data.token, response.data.User);
-      const redirectTo = route.params?.redirectTo || 'Home';
-      navigation.navigate(redirectTo);
 
+      const redirectTo = route.params?.redirectTo;
+
+      if (redirectTo === 'GameSettings') {
+        // نرجع لصفحة الإعدادات.. وعشانها خارج التاب بار فنكتب اسمها مباشرة
+        navigation.replace('GameSettings');
+      } else {
+        navigation.navigate('Home');
+      }
       // Alert.alert("تم ✅", "تم تسجيل الدخول بنجاح!")
 
       // التنقل يتم تلقائي من Navigation حسب isAuthenticated

@@ -8,7 +8,7 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
 
 const WelcomeScreen = ({ navigation, route }) => {
-    const redirectTo = route.params?.redirectTo || 'Home';
+    const redirectTo = route.params?.redirectTo || route.params?.params?.redirectTo;
 
     return (
         <View style={styles.container}>

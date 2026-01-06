@@ -19,12 +19,10 @@ import ProfileIconFooter from '../../../assets/icons/ProfileIconFooter.svg';
 import ProfileIconFooterSelected from '../../../assets/icons/ProfileIconFooterSelected.svg';
 
 
-const EmptyScreen = () => null;         //  مؤقت لأنه باقي الصفحات ما سويتها
-
 const Tab = createBottomTabNavigator();
 
 const tabIcons = {
-  HomeScreen: { active: HomeIconFooterSelected, inactive: HomeIconFooter },
+  Home: { active: HomeIconFooterSelected, inactive: HomeIconFooter },
   Categories: { active: CategoriesIconFooterSelected, inactive: CategoriesIconFooter },
   Profile: { active: ProfileIconFooterSelected, inactive: ProfileIconFooter },
   About: { active: HowToPlayIconFooter, inactive: HowToPlayIconFooter },
@@ -40,6 +38,9 @@ const tabLabels = {
 const BottomTab = () => {
   return (
     <Tab.Navigator
+
+    initialRouteName="Home"
+
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: Colors.colors.primary,
@@ -65,9 +66,9 @@ const BottomTab = () => {
       })}
     >
       <Tab.Screen name="About" component={AboutScreen} options={{ tabBarLabel: tabLabels.About }} />
-      <Tab.Screen name="Categories" component={EmptyScreen} options={{ tabBarLabel: tabLabels.Categories}} />
+      <Tab.Screen name="Categories" component={CategoriesScreen} options={{ tabBarLabel: tabLabels.Categories}} />
       <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: tabLabels.Home }} />
-      <Tab.Screen name="Profile" component={EmptyScreen} options={{ tabBarLabel: tabLabels.Profile }} />
+      <Tab.Screen name="Profile" component={ProfileGate} options={{ tabBarLabel: tabLabels.Profile }} />
 
     </Tab.Navigator>
   );

@@ -1,22 +1,20 @@
 import React from 'react';
 import useAuthStore from '../../store/AuthStore';
-import AuthStack from '../../stacks/AuthStack';
+import WelcomeScreen from '../../screens/auth/WelcomeScreen';
 import ProfileScreen from '../../screens/profile/ProfileScreen';
 
-// مؤقت لين اسوي صفحة البروفايل
-//const ProfileScreen = () => null;
 
-const ProfileGate = () => {
+const ProfileGate = ({ navigation, route }) => {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  
+  // استخراج الـ redirectTo القادم من القيم سيتنقز
+  const redirectTo = route.params?.params?.redirectTo || route.params?.redirectTo;
 
-  // غير مسجل
   if (!isAuthenticated) {
-    return <AuthStack />;
+    // نمرر الـ redirectTo كـ params للويلكم سكرين
+    return <WelcomeScreen navigation={navigation} route={{ params: { redirectTo } }} />;
   }
 
-  // مسجل
   return <ProfileScreen />;
 };
-
 export default ProfileGate;
-

@@ -9,6 +9,7 @@ import LogoutIcon from "../../../assets/icons/Logout.svg";
 import {Fonts} from "../../../assets/fonts/Fonts";
 import Colors from "../../utils/colors/Colors";
 import useGameSessionStore from '../../store/GameSessionStore';
+import useGameSettingsStore from '../../store/Store';
 
 const GameHeader = ({
     showLogo = true,
@@ -21,6 +22,7 @@ const GameHeader = ({
 
     // ====== Game Session ======
     const endSession = useGameSessionStore(state => state.endSession);
+    const resetGameSettings = useGameSettingsStore(state => state.resetGameSettings);
 
     const handleExit = () => {
         Alert.alert(
@@ -32,7 +34,12 @@ const GameHeader = ({
                     text: "خروج",
                     style: "destructive",
                     onPress: () => {
-                        endSession(); // 🔥 إنهاء السيشن
+                        endSession(); // إنهاء السيشن
+
+                        // تصفير إعدادات اللعبة والفئات المختارة
+                        resetGameSettings();
+
+                        // يوديه للهوم ويتصفر Back
                         navigation.reset({
                             index: 0,
                             routes: [{ name: 'Home' }],
@@ -59,7 +66,7 @@ const GameHeader = ({
 
                 {/* Center */}
                 <View style={styles.centerContainer}>
-                    <Text style={styles.gameName}>{gameName + "!🏁"}</Text>
+                    <Text style={styles.gameName}>{ "🏁!"+ gameName}</Text>
                 </View>
 
                 {/* Right */}

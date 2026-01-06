@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, FlatList, Image, Platform } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, Image, Platform, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/shared/Header'
 import CustomInput from '../../components/shared/CustomInput'
@@ -18,7 +18,11 @@ const GameSettings = () => {
     const isAuthenticated = useAuthStore(state => state.isAuthenticated);
     const navigation = useNavigation();
     const startSession = useGameSessionStore(state => state.startSession);
+    const authStore = useAuthStore;
 
+    useEffect(() => {
+        console.log("Status changed:", isAuthenticated);
+    }, [isAuthenticated]);
 
     // ====== Zustand Store ======
     const {
@@ -34,29 +38,37 @@ const GameSettings = () => {
     } = useGameSettingsStore();
 
     const handleStartGame = async () => {
-
-        //Validation
-        if (
-            !gameName ||
-            !teamName1 ||
-            !teamName2 ||
-            !questionsCount ||
-            selectedCategory.length === 0
-        ) {
-            return;
-        }
-
-        // المستخدم غير مسجل
-        if (!isAuthenticated) {
-            navigation.navigate('Welcome', {
-                redirectTo: 'GameSettings', // يرجع لنفس الصفحة بعد تسجيل الدخول
-            });
-            return;
-        }
-
         try {
-            const categoryIds = selectedCategory.map(item => item.id);
+            // جلب القيم والتأكد من وجودها
+            const authStore = useAuthStore.getState();
+            const currentIsAuthenticated = authStore.isAuthenticated;
 
+            //Validation
+            if (
+                !gameName ||
+                !teamName1 ||
+                !teamName2 ||
+                !questionsCount ||
+                selectedCategory.length === 0
+            ) {
+                return;
+            }
+
+            // فحص تسجيل الدخول
+            if (!currentIsAuthenticated) {
+                Alert.alert("تسجيل الدخول", "يجب تسجيل الدخول أولاً للبدء.", [
+                    {
+                        text: "حسناً", onPress: () => navigation.navigate('Home', {
+                            screen: 'Profile',
+                            params: { redirectTo: 'GameSettings' }
+                        })
+                    }
+                ]);
+                return;
+            }
+
+            // Payload
+            const categoryIds = selectedCategory.map(item => item.id);
             const payload = {
                 count_category: String(categoryIds.length),
                 category_id: categoryIds,
@@ -66,18 +78,19 @@ const GameSettings = () => {
                 number_of_questions: String(questionsCount),
             };
 
+            // API
             const response = await apiRequests.postCreationGroup(payload);
 
             if (response?.data?.status === 'success') {
                 const groupId = response.data.group_id;
-
-                startSession(groupId); //  بدء السيشن
-
+                startSession(groupId);
                 navigation.navigate('GameScreen');
+            } else {
+                Alert.alert("خطأ من السيرفر", response?.data?.message || "فشل إنشاء اللعبة.");
             }
 
         } catch (error) {
-            console.log('Create Game Error:', error);
+            console.error("Critical Error:", error);
         }
     };
 
@@ -94,21 +107,25 @@ const GameSettings = () => {
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // iOS يستخدم padding، Android يستخدم height
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20} // ضبط المسافة حسب الحاجة
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
         >
             {/* ====== Header ====== */}
             <Header
                 showBack={true}
                 showTitle={true}
                 title="جهز اللعبة"
-                onBackPress={() => navigation.goBack()}
+                onBackPress={() => {
+                    navigation.navigate('Home', {
+                        screen: 'Categories'
+                    });
+                }}
             />
 
-            <ScrollView
+            <View
                 style={styles.container}
-                contentContainerStyle={{ paddingBottom: verticalScale(50) }} // عشان مايعلق شي أسفل
-                showsVerticalScrollIndicator={false} // إخفاء شريط التمرير لو تحب
-                keyboardShouldPersistTaps="handled" // عشان لما تضغط على زر يتفاعل بدون غلق الكيبورد
+                contentContainerStyle={{ paddingBottom: verticalScale(50) }}
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
             >
 
                 {/*====== Categorize Cards ====== */}
@@ -164,16 +181,17 @@ const GameSettings = () => {
                 </View>
 
                 <View style={styles.buttonCon}>
-                    <View style={[globalStyles.buttonMedium, { backgroundColor: colors.colors.Buttonbackground }]}>
-                        <TouchableOpacity onPress={handleStartGame}>
-                            <Text style={[globalStyles.mainTitle, { color: colors.colors.background }]}>
-                                ابدأ اللعب
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity
+                        style={[globalStyles.buttonMedium, { backgroundColor: colors.colors.Buttonbackground }]}
+                        onPress={handleStartGame}
+                    >
+                        <Text style={[globalStyles.mainTitle, { color: colors.colors.background }]}>
+                            ابدأ اللعب
+                        </Text>
+                    </TouchableOpacity>
                 </View>
 
-            </ScrollView>
+            </View>
         </KeyboardAvoidingView>
     )
 }
@@ -183,14 +201,16 @@ const styles = StyleSheet.create({
         backgroundColor: colors.colors.background,
     },
     inputTextCon: {
-        marginTop: verticalScale(30)
+        marginTop: verticalScale(10)
     },
     gameText: {
         fontSize: moderateScale(22),
         fontFamily: Fonts.FontBold,
+        writingDirection: 'rtl',
     },
     buttonCon: {
-        marginTop: verticalScale(40),
+        marginTop: verticalScale(30),
+        marginBottom: verticalScale(40),
     },
     cardWrapper: {
         width: scale(110),

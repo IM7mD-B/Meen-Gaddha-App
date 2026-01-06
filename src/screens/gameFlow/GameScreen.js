@@ -14,8 +14,8 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const GameScreen = () => {
   const navigation = useNavigation();
-  const { groupId, isGameActive } = useGameSessionStore();
-  const { gameName, teamName1, teamName2 } = useGameSettingsStore();
+  const { groupId, isGameActive, endSession } = useGameSessionStore();
+  const { gameName, teamName1, teamName2, resetGameSettings } = useGameSettingsStore();
   
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,14 @@ const GameScreen = () => {
 
   useEffect(() => {
     Orientation.lockToLandscape();
-    return () => Orientation.unlockAllOrientations();
+    
+    return () => {
+      console.log("Cleaning up game data...");
+      Orientation.unlockAllOrientations();
+      
+      resetGameSettings(); // يصفر (اسم اللعبة، الفرق، الفئات المختارة)
+      endSession();        // ينهي السيشن (isGameActive = false)
+    };
   }, []);
 
   useEffect(() => {
@@ -99,11 +106,11 @@ const GameScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <GameHeader gameName={gameName || "اسم اللعبة"} />
+      <GameHeader gameName={gameName || "اسم اللعبة"} showLogout />
 
       <View style={styles.content}>
         
-        {/* ===== معلومات الفرق ===== */}
+        {/* ===== Team info ===== */}
        {/* <View style={styles.sideSection}>
            <View style={styles.teamCard}>
               <Text style={styles.teamNameLabel} numberOfLines={1}>{teamName1 || "الفريق 1"}</Text>
@@ -121,7 +128,7 @@ const GameScreen = () => {
         </View>
         */}
 
-        {/* ===== البورد ===== */}
+        {/* ===== Board ===== */}
         <View style={styles.boardWrapper}>
           <ScrollView 
             pagingEnabled
@@ -153,7 +160,7 @@ const GameScreen = () => {
                       </View>
                     </ImageBackground>
 
-                    {/* النقاط */}
+                    {/* Points */}
                     <View style={styles.pointsList}>
                       {renderPoints(cat.questions_count).map((p) => {
                         // يتاكد إذا كان الزر قد انضغط ولا لا
@@ -200,8 +207,15 @@ const GameScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.colors.background },
-  content: { flex: 1, flexDirection: 'row' },
+  container: { 
+    flex: 1, 
+    backgroundColor: Colors.colors.background 
+  },
+
+  content: { 
+    flex: 1, 
+    flexDirection: 'row' 
+  },
 
   sideSection: {
     width: '25%',
@@ -212,6 +226,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: verticalScale(10)
   },
+
   teamCard: {
     backgroundColor: Colors.colors.primary,
     width: '85%',
@@ -220,10 +235,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 3,
   },
-  teamNameLabel: { color: '#fff', fontWeight: 'bold', fontSize: moderateScale(13) },
-  teamScore: { color: '#fff', fontSize: moderateScale(22), fontWeight: 'bold', marginTop: 5 },
-  vsContainer: { marginVertical: verticalScale(10) },
-  vsText: { fontWeight: 'bold', color: Colors.colors.primary, fontSize: moderateScale(18) },
+
+  teamNameLabel: { 
+    color: '#fff', 
+    fontWeight: 'bold', 
+    fontSize: moderateScale(13) 
+  },
+
+  teamScore: { 
+    color: '#fff', 
+    fontSize: moderateScale(22), 
+    fontWeight: 'bold',
+     marginTop: 5 
+    },
+
+  vsContainer: { 
+    marginVertical: verticalScale(10) 
+  },
+
+  vsText: { 
+    fontWeight: 'bold', 
+    color: Colors.colors.primary, 
+    fontSize: moderateScale(18) 
+  },
 
   // (Board Section)
   boardWrapper: { 
@@ -293,7 +327,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold' 
   },
 
-  //  ستايل الـ Dots 
+  // Dots 
   dotsContainer: {
     position: 'absolute',
     right: scale(8),
