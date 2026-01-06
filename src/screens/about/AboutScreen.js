@@ -12,6 +12,7 @@ import AlarmIcon from '../../../assets/icons/Alarm.svg'
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 import MGIcon from '../../../assets/icons/MG_Icon.svg'
 import { Fonts } from '../../../assets/fonts/Fonts';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -19,7 +20,7 @@ import { Fonts } from '../../../assets/fonts/Fonts';
 const AboutScreen = () => {
     return (
 
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.titleCon}>
                 <Text style={styles.titleText} >وش سالفة  </Text>
                 <MGIcon />
@@ -91,7 +92,7 @@ const AboutScreen = () => {
                 />
             </View>
 
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -106,13 +107,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginVertical: verticalScale(20)
+        marginVertical: verticalScale(15)
 
     },
     subTitleCon: {
         alignItems: 'center',
         justifyContent: 'center',
-        padding : moderateScale(25)
+        padding : moderateScale(10)
     },
     titleText: {
         fontSize: moderateScale(20),
@@ -128,13 +129,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'flex-end',
-        marginTop: verticalScale(20),
+        marginTop: verticalScale(25),
     },
     assistCardsCon:{
         alignItems:'center',
-        justifyContent:'space-between',
-        flex:1,
-        marginBottom:verticalScale(25)
+        gap: verticalScale(15),
+        marginBottom: verticalScale(25),
+        marginBottom:verticalScale(10)
         
     },
 })

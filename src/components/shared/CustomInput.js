@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     color:"#777",
     fontSize:moderateScale(14),
     marginLeft:scale(40),  
-    marginTop:verticalScale(-5)  
+    marginTop:verticalScale(-5),
+    writingDirection: 'rtl', 
   }
 });

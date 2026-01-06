@@ -27,7 +27,7 @@ const dropdown = () => {
                 style={styles.selector}
                 onPress={() => setOpen(!open)}
             >
-                <Text style={[globalStyles.subTitle, { color: colors.colors.secondary }]}>
+                <Text style={[ { color: colors.colors.secondary, writingDirection: 'rtl', }]}>
                     {questionsCount
                         ? `عدد الأسئلة : ${questionsCount}`
                         : "كم سؤال تبغون تتحدون فيه؟ 🤔"}
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: moderateScale(20),
     },
     selectorText: {
-        fontSize: scale(16)
+        fontSize: scale(16),
     },
     dropdown: {
         backgroundColor: "#fff",
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
 
     },
     optionText: {
-        fontSize: moderateScale(15)
+        fontSize: moderateScale(15),
+        writingDirection: 'rtl',
     }
 
 })

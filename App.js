@@ -28,15 +28,13 @@ export default function App() {
       i18n.changeLanguage(appLanguage);
 
       // تفعيل RTL
-      if (!I18nManager.isRTL) {
+      if (appLanguage === 'ar' && !I18nManager.isRTL) {
         I18nManager.allowRTL(true);
         I18nManager.forceRTL(true);
+        RNRestart.Restart();
 
         //  يعيد التشغيل تلقائيًا
-        if (Platform.OS === 'android' || Platform.OS === 'ios') {
-          RNRestart.Restart();
-          return;
-        }
+        
       }
 
       await storageHandler('store', 'language', appLanguage);

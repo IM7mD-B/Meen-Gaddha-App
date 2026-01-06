@@ -91,7 +91,7 @@ const CategoriesScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Header showBack showTitle title="اختر والعب" />
+      <Header showTitle title="اختر والعب" />
 
       <ScrollView contentContainerStyle={styles.content}>
 

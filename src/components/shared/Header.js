@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, I18nManager } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import Arrow_Back from '../../../assets/icons/Arrow_Back.svg'
@@ -7,7 +7,9 @@ import Meen_Gaddha_Icon from '../../../assets/icons/Meen_Gaddha_Icon.svg';
 import Fonts from "../../../assets/fonts/Fonts";
 import Colors from "../../utils/colors/Colors";
 
+
 const Header = ({
+
   showBack = false,
   showProfile = false,
   showTitle = false,
@@ -16,6 +18,8 @@ const Header = ({
   onBackPress = () => { },
   onProfilePress = () => { },
 }) => {
+  const isRTL = I18nManager.isRTL;
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -23,7 +27,7 @@ const Header = ({
         {/* Left section */}
         <View style={styles.leftContainer}>
           {showBack && (
-            <TouchableOpacity onPress={onBackPress}>
+            <TouchableOpacity onPress={onBackPress} style={{ transform: [{ scaleX: Platform.OS === 'ios' ? -1 : 1 }]}}>
               <Arrow_Back width={scale(35)} height={verticalScale(32)} />
             </TouchableOpacity>
           )}
@@ -49,7 +53,7 @@ const Header = ({
         )}
         {showIcon && (
           <View style={styles.rightContainer}>
-            <Meen_Gaddha_Icon/>
+            <Meen_Gaddha_Icon />
           </View>
         )}
       </View>
@@ -122,7 +126,7 @@ const styles = StyleSheet.create({
     fontFamily: "Cairo-Medium",
     color: Colors.colors.text,
   },
-  rightContainer:{
+  rightContainer: {
     position: "absolute",
     right: scale(15),
     paddingTop: verticalScale(25),

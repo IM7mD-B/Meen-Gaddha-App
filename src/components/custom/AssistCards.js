@@ -51,10 +51,12 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: moderateScale(15),
         fontFamily: Fonts.FontBold,
+        writingDirection: 'rtl',
     },
     subTitleText: {
         fontSize: moderateScale(11),
         fontFamily: Fonts.FontSemiBold,
+        writingDirection: 'rtl',
     },
     iconWrapper: {
         alignSelf:'center',   

@@ -147,7 +147,7 @@ const HomeScreen = () => {
           numColumns={3}
           scrollEnabled={false}
           renderItem={renderExclusive} 
-          columnWrapperStyle={{ justifyContent: 'space-between' }}
+          columnWrapperStyle={{ justifyContent: 'flex-start' }}
           contentContainerStyle={{
             paddingHorizontal: scale(16),
             paddingTop: verticalScale(15),
@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
     width: scale(101),
     alignItems: 'center',
     marginBottom: verticalScale(25),
+    marginEnd: scale(12),
   },
 
   exclusiveCard: { 
